@@ -6,9 +6,22 @@ import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "./ui/use-toast";
 
 export const UserProfile = () => {
   const [learningStyle, setLearningStyle] = useState("visual");
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    toast({
+      title: "Profile Saved!",
+      description: "Your profile has been created successfully.",
+    });
+    navigate("/matching");
+  };
 
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 bg-secondary">
@@ -23,7 +36,7 @@ export const UserProfile = () => {
           <p className="text-muted-foreground">Tell us about yourself to find the perfect study partners</p>
         </div>
 
-        <div className="space-y-6 bg-white p-6 rounded-lg shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-sm">
           <div className="flex items-center gap-2 mb-6">
             <User className="w-5 h-5 text-primary" />
             <h3 className="text-xl font-semibold text-primary-dark">Personal Information</h3>
@@ -32,12 +45,12 @@ export const UserProfile = () => {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="Enter your full name" />
+              <Input id="name" placeholder="Enter your full name" required />
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="bio">Bio</Label>
-              <Textarea id="bio" placeholder="Tell us a bit about yourself..." />
+              <Textarea id="bio" placeholder="Tell us a bit about yourself..." required />
             </div>
           </div>
 
@@ -49,7 +62,7 @@ export const UserProfile = () => {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="subjects">Subjects (comma-separated)</Label>
-              <Input id="subjects" placeholder="e.g., Mathematics, Physics, Computer Science" />
+              <Input id="subjects" placeholder="e.g., Mathematics, Physics, Computer Science" required />
             </div>
           </div>
 
@@ -61,7 +74,7 @@ export const UserProfile = () => {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="availability">Preferred Study Times</Label>
-              <Input id="availability" type="time" className="w-full" />
+              <Input id="availability" type="time" className="w-full" required />
             </div>
           </div>
 
@@ -85,10 +98,10 @@ export const UserProfile = () => {
             </div>
           </RadioGroup>
 
-          <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-white">
-            Save Profile
+          <Button type="submit" className="w-full mt-6 bg-primary hover:bg-primary/90 text-white">
+            Save Profile & Find Matches
           </Button>
-        </div>
+        </form>
       </motion.div>
     </section>
   );
