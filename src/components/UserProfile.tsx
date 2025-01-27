@@ -20,6 +20,7 @@ export const UserProfile = () => {
       title: "Profile Saved!",
       description: "Your profile has been created successfully.",
     });
+    // Navigate to matching module after profile creation
     navigate("/matching");
   };
 

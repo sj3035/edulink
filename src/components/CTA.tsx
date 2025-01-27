@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 export const CTA = () => {
   const navigate = useNavigate();
 
+  const handleGetStarted = () => {
+    navigate("/profile");
+  };
+
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground">
       <motion.div
@@ -23,7 +27,7 @@ export const CTA = () => {
           size="lg"
           variant="secondary"
           className="text-lg px-8 hover:bg-background/90 transition-colors"
-          onClick={() => navigate("/profile")}
+          onClick={handleGetStarted}
         >
           Get Started Now
         </Button>
