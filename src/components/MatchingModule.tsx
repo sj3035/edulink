@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { MatchingHeader } from "./MatchingHeader";
 import { MatchedUserCard } from "./MatchedUserCard";
-import { ProfileMenu } from "./ProfileMenu";
+import { SchedulingAndResources } from "./SchedulingAndResources";
 
 export const MatchingModule = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
+  const [showScheduling, setShowScheduling] = useState(false);
   const [matches, setMatches] = useState([
     {
       id: 1,
@@ -50,23 +52,36 @@ export const MatchingModule = () => {
 
   const handleFindMatches = () => {
     setIsLoading(true);
-    // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
     }, 1500);
+  };
+
+  const handleConnect = (name: string) => {
+    setSelectedMatch(name);
+    setShowScheduling(true);
   };
 
   return (
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-8">
         <MatchingHeader onFindMatches={handleFindMatches} isLoading={isLoading} />
-        <ProfileMenu />
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {matches.map((match, index) => (
-          <MatchedUserCard key={match.id} match={match} index={index} onConnect={() => {}} />
+          <MatchedUserCard 
+            key={match.id} 
+            match={match} 
+            index={index} 
+            onConnect={handleConnect}
+          />
         ))}
       </div>
+      <SchedulingAndResources
+        isOpen={showScheduling}
+        onClose={() => setShowScheduling(false)}
+        matchName={selectedMatch || ""}
+      />
     </div>
   );
 };
