@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trophy, Target, Chart, Award } from "lucide-react";
+import { Trophy, Target, BarChart, Award } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
