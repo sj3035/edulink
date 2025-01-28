@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import { UserProfile } from "./components/UserProfile";
 import { MatchingModule } from "./components/MatchingModule";
+import { ProgressTracking } from "./components/ProgressTracking";
+import { Community } from "./components/Community";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +21,8 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/matching" element={<MatchingModule />} />
+            <Route path="/progress" element={<ProgressTracking />} />
+            <Route path="/community" element={<Community />} />
           </Routes>
           <Toaster />
           <Sonner />
