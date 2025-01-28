@@ -5,6 +5,7 @@ import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { useToast } from "./ui/use-toast";
 import { Book, Clock, Brain, Users } from "lucide-react";
+import { SchedulingAndResources } from "./SchedulingAndResources";
 
 interface MatchedUser {
   name: string;
@@ -18,6 +19,7 @@ export const MatchingModule = () => {
   const { toast } = useToast();
   const [matches, setMatches] = useState<MatchedUser[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
 
   const findMatches = async () => {
     setIsLoading(true);
@@ -65,8 +67,13 @@ export const MatchingModule = () => {
         className="max-w-4xl mx-auto space-y-8"
       >
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-primary-dark mb-4">Find Your Study Partners</h2>
-          <p className="text-muted-foreground">Our smart algorithm matches you with compatible study partners based on your profile</p>
+          <h2 className="text-3xl font-bold text-primary-dark mb-4">
+            Find Your Study Partners
+          </h2>
+          <p className="text-muted-foreground">
+            Our smart algorithm matches you with compatible study partners based on
+            your profile
+          </p>
         </div>
 
         <div className="flex justify-center">
@@ -89,7 +96,7 @@ export const MatchingModule = () => {
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
               <Card className="p-6">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-4">
                   <div className="flex items-center gap-4">
                     <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
                       <Users className="h-6 w-6 text-primary" />
@@ -98,7 +105,11 @@ export const MatchingModule = () => {
                       <h3 className="text-lg font-semibold">{match.name}</h3>
                       <div className="flex gap-2 mt-1">
                         {match.subjects.map((subject, idx) => (
-                          <Badge key={idx} variant="secondary" className="flex items-center gap-1">
+                          <Badge
+                            key={idx}
+                            variant="secondary"
+                            className="flex items-center gap-1"
+                          >
                             <Book className="h-3 w-3" />
                             {subject}
                           </Badge>
@@ -106,9 +117,18 @@ export const MatchingModule = () => {
                       </div>
                     </div>
                   </div>
-                  <Badge variant="default" className="text-lg">
-                    {match.compatibilityScore}% Match
-                  </Badge>
+                  <div className="flex items-center gap-4">
+                    <Badge variant="default" className="text-lg">
+                      {match.compatibilityScore}% Match
+                    </Badge>
+                    <Button
+                      onClick={() => setSelectedMatch(match.name)}
+                      variant="secondary"
+                      className="whitespace-nowrap"
+                    >
+                      Connect
+                    </Button>
+                  </div>
                 </div>
                 <div className="mt-4 flex gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
@@ -125,6 +145,12 @@ export const MatchingModule = () => {
           ))}
         </div>
       </motion.div>
+
+      <SchedulingAndResources
+        isOpen={!!selectedMatch}
+        onClose={() => setSelectedMatch(null)}
+        matchName={selectedMatch || ""}
+      />
     </section>
   );
 };
