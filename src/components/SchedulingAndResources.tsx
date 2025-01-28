@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Calendar, File, Link, MessageSquare, Clock } from "lucide-react";
+import { Calendar as CalendarIcon, File, Link, MessageSquare, Clock } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
 import { Badge } from "./ui/badge";
+import { Calendar } from "./ui/calendar";
 
 interface SchedulingAndResourcesProps {
   isOpen: boolean;
@@ -68,7 +69,7 @@ export const SchedulingAndResources = ({
         <div className="grid gap-6 py-4">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" />
+              <CalendarIcon className="h-5 w-5 text-primary" />
               <h3 className="text-lg font-semibold">Schedule Study Session</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
