@@ -4,39 +4,65 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "../ui/dialog";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "../ui/card";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showError, setShowError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Simulate checking if user exists (in real app, this would be an API call)
-    const userExists = localStorage.getItem(email);
-    
-    if (!userExists) {
-      setShowError(true);
-      return;
-    }
+    setIsLoading(true);
 
-    // Simulate successful login
-    toast({
-      title: "Login successful",
-      description: "Welcome back!",
-    });
-    navigate("/dashboard/matching");
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        if (error.message.includes("Invalid login credentials")) {
+          toast({
+            variant: "destructive",
+            title: "Invalid credentials",
+            description: "Please check your email and password.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Login failed",
+            description: error.message,
+          });
+        }
+        return;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Login successful",
+          description: "Welcome back!",
+        });
+        navigate("/dashboard/matching");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "An error occurred",
+        description: "Please try again later.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -78,8 +104,8 @@ export const Login = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
-              Sign in
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
         </CardContent>
@@ -92,25 +118,6 @@ export const Login = () => {
           </div>
         </CardFooter>
       </Card>
-
-      <Dialog open={showError} onOpenChange={setShowError}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Account Not Found</DialogTitle>
-            <DialogDescription>
-              We couldn't find an account with that email address. Would you like to create a new account?
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-end space-x-4">
-            <Button variant="outline" onClick={() => setShowError(false)}>
-              Try Again
-            </Button>
-            <Button onClick={() => navigate("/register")}>
-              Create Account
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
