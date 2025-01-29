@@ -1,17 +1,11 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "../ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -66,19 +60,17 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <div className="flex justify-center mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-secondary/30">
+      <Card className="w-[400px]">
+        <CardHeader className="space-y-1 text-center">
+          <div className="flex justify-center mb-4">
             <img
               src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
               alt="EduLink Logo"
-              className="h-20 w-auto"
+              className="h-20"
             />
           </div>
-          <CardTitle className="text-2xl font-bold text-center">
-            Sign in to your account
-          </CardTitle>
+          <CardTitle className="text-2xl font-semibold">Sign in to your account</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -109,12 +101,12 @@ export const Login = () => {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col space-y-2">
-          <div className="text-sm text-center">
+        <CardFooter>
+          <div className="text-sm text-center w-full text-muted-foreground">
             Don't have an account?{" "}
-            <Link to="/register" className="text-primary hover:underline">
-              Register
-            </Link>
+            <Button variant="link" className="p-0" onClick={() => navigate("/register")}>
+              Create one
+            </Button>
           </div>
         </CardFooter>
       </Card>
