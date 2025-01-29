@@ -43,6 +43,13 @@ export const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
+          <div className="flex justify-center mb-6">
+            <img
+              src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
+              alt="EduLink Logo"
+              className="h-20 w-auto"
+            />
+          </div>
           <CardTitle className="text-2xl font-bold text-center">
             Sign in to your account
           </CardTitle>
