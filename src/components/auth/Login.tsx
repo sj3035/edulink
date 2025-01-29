@@ -4,25 +4,39 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "../ui/dialog";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically handle authentication
-    // For now, we'll simulate a successful login
-    if (email && password) {
-      toast({
-        title: "Login successful",
-        description: "Welcome back!",
-      });
-      navigate("/dashboard/matching");
+    
+    // Simulate checking if user exists (in real app, this would be an API call)
+    const userExists = localStorage.getItem(email);
+    
+    if (!userExists) {
+      setShowError(true);
+      return;
     }
+
+    // Simulate successful login
+    toast({
+      title: "Login successful",
+      description: "Welcome back!",
+    });
+    navigate("/dashboard/matching");
   };
 
   return (
@@ -71,6 +85,25 @@ export const Login = () => {
           </div>
         </CardFooter>
       </Card>
+
+      <Dialog open={showError} onOpenChange={setShowError}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Account Not Found</DialogTitle>
+            <DialogDescription>
+              We couldn't find an account with that email address. Would you like to create a new account?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end space-x-4">
+            <Button variant="outline" onClick={() => setShowError(false)}>
+              Try Again
+            </Button>
+            <Button onClick={() => navigate("/register")}>
+              Create Account
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

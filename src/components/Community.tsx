@@ -14,14 +14,31 @@ import { useToast } from "./ui/use-toast";
 
 export const Community = () => {
   const [activeTab, setActiveTab] = useState<"forums" | "chats">("forums");
+  const [requestedChats, setRequestedChats] = useState<number[]>([]);
+  const [acceptedChats, setAcceptedChats] = useState<number[]>([]);
   const { toast } = useToast();
 
-  const handleJoinChat = () => {
+  const handleJoinChat = (chatId: number) => {
+    if (!requestedChats.includes(chatId)) {
+      setRequestedChats([...requestedChats, chatId]);
+      toast({
+        title: "Chat Request Sent",
+        description: "Your request to join the chat has been sent to the moderators.",
+      });
+    }
+  };
+
+  // Simulate admin accepting request (in real app this would come from backend)
+  const simulateAcceptRequest = (chatId: number) => {
+    setRequestedChats(requestedChats.filter(id => id !== chatId));
+    setAcceptedChats([...acceptedChats, chatId]);
     toast({
-      title: "Chat Request Sent",
-      description: "Your request to join the chat has been sent to the moderators.",
+      title: "Request Accepted",
+      description: "You can now join the chat group!",
     });
   };
+
+  // ... keep existing code (forums section)
 
   return (
     <div className="container mx-auto p-6 space-y-8">
@@ -101,9 +118,19 @@ export const Community = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button onClick={handleJoinChat} className="w-full">
-                  Request to Join
-                </Button>
+                {acceptedChats.includes(chat) ? (
+                  <Button onClick={() => {}} className="w-full bg-green-500 hover:bg-green-600">
+                    Join Chat
+                  </Button>
+                ) : requestedChats.includes(chat) ? (
+                  <Button variant="outline" className="w-full" disabled>
+                    Requested
+                  </Button>
+                ) : (
+                  <Button onClick={() => handleJoinChat(chat)} className="w-full">
+                    Request to Join
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           ))}
