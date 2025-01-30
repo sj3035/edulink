@@ -63,11 +63,11 @@ export const MatchingModule = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mb-8">
         <MatchingHeader onFindMatches={handleFindMatches} isLoading={isLoading} />
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {matches.map((match, index) => (
           <MatchedUserCard 
             key={match.id} 
