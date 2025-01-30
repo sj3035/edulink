@@ -25,16 +25,18 @@ export const Login = () => {
       });
 
       if (error) {
+        console.error('Login error:', error);
+        
         if (error.message.includes("Invalid login credentials")) {
           toast({
             variant: "destructive",
-            title: "Invalid credentials",
-            description: "Please check your email and password.",
+            title: "Login Failed",
+            description: "Please check your email and password, or sign up if you don't have an account.",
           });
         } else {
           toast({
             variant: "destructive",
-            title: "Login failed",
+            title: "Login Error",
             description: error.message,
           });
         }
@@ -43,12 +45,13 @@ export const Login = () => {
 
       if (data.user) {
         toast({
-          title: "Login successful",
-          description: "Welcome back!",
+          title: "Welcome back!",
+          description: "Successfully logged in.",
         });
         navigate("/dashboard/matching");
       }
     } catch (error) {
+      console.error('Unexpected error:', error);
       toast({
         variant: "destructive",
         title: "An error occurred",
@@ -60,11 +63,11 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-12">
       <img
         src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
         alt="EduLink Logo"
-        className="h-32 animate-fade-in"
+        className="h-40 w-auto animate-fade-in"
       />
       <Card className="w-[400px] animate-fade-up">
         <CardHeader className="space-y-1 text-center">
@@ -81,6 +84,7 @@ export const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="w-full"
               />
             </div>
             <div className="space-y-2">
@@ -92,9 +96,14 @@ export const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="w-full"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={isLoading}
+            >
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
@@ -102,7 +111,11 @@ export const Login = () => {
         <CardFooter>
           <div className="text-sm text-center w-full text-muted-foreground">
             Don't have an account?{" "}
-            <Button variant="link" className="p-0" onClick={() => navigate("/register")}>
+            <Button 
+              variant="link" 
+              className="p-0" 
+              onClick={() => navigate("/register")}
+            >
               Create one
             </Button>
           </div>
