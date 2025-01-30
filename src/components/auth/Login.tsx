@@ -74,11 +74,11 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-12">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-16 p-4">
       <img
         src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
         alt="EduLink Logo"
-        className="h-40 w-auto animate-fade-in mix-blend-multiply"
+        className="h-48 w-auto animate-fade-in mix-blend-multiply"
       />
       <Card className="w-[400px] animate-fade-up">
         <CardHeader className="space-y-1 text-center">

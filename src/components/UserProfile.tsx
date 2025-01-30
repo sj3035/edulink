@@ -36,7 +36,13 @@ export const UserProfile = () => {
           .eq('id', user.id)
           .single();
 
-        if (error) throw error;
+        if (error) {
+          if (error.code === 'PGRST116') {
+            // Profile doesn't exist yet, which is fine for new users
+            return;
+          }
+          throw error;
+        }
 
         if (profile) {
           setName(profile.full_name || '');
@@ -73,7 +79,7 @@ export const UserProfile = () => {
         .from('profiles')
         .upsert({
           id: user.id,
-          email: email, // Include email field
+          email: email,
           full_name: name,
           bio,
           subjects,

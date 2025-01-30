@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -76,11 +76,16 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary/30 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-16 p-4">
+      <img
+        src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
+        alt="EduLink Logo"
+        className="h-48 w-auto animate-fade-in mix-blend-multiply"
+      />
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
-            Create an account
+            Create an Account
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -102,7 +107,7 @@ export const Register = () => {
               <Input
                 id="password"
                 type="password"
-                placeholder="Create a password"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -126,12 +131,17 @@ export const Register = () => {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col space-y-2">
-          <div className="text-sm text-center">
+        <CardFooter className="flex justify-center">
+          <div className="text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link to="/login" className="text-primary hover:underline">
+            <Button
+              variant="link"
+              className="p-0"
+              onClick={() => navigate("/login")}
+              disabled={isLoading}
+            >
               Sign in
-            </Link>
+            </Button>
           </div>
         </CardFooter>
       </Card>
