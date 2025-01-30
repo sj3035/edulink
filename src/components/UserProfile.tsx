@@ -17,6 +17,7 @@ export const UserProfile = () => {
   const [subjects, setSubjects] = useState("");
   const [studyTime, setStudyTime] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -43,6 +44,7 @@ export const UserProfile = () => {
           setSubjects(profile.subjects || '');
           setStudyTime(profile.study_time || '');
           setLearningStyle(profile.learning_style || 'visual');
+          setEmail(profile.email || '');
         }
       } catch (error) {
         console.error('Error fetching profile:', error);
@@ -71,6 +73,7 @@ export const UserProfile = () => {
         .from('profiles')
         .upsert({
           id: user.id,
+          email: email, // Include email field
           full_name: name,
           bio,
           subjects,
