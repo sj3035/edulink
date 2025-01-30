@@ -60,16 +60,14 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary/30">
-      <Card className="w-[400px]">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-8">
+      <img
+        src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
+        alt="EduLink Logo"
+        className="h-32 animate-fade-in"
+      />
+      <Card className="w-[400px] animate-fade-up">
         <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-4">
-            <img
-              src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
-              alt="EduLink Logo"
-              className="h-20"
-            />
-          </div>
           <CardTitle className="text-2xl font-semibold">Sign in to your account</CardTitle>
         </CardHeader>
         <CardContent>
