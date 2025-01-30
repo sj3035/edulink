@@ -19,8 +19,19 @@ export const Login = () => {
     setIsLoading(true);
 
     try {
+      // Validate input
+      if (!email || !password) {
+        toast({
+          variant: "destructive",
+          title: "Missing Information",
+          description: "Please enter both email and password.",
+        });
+        setIsLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+        email: email.trim(),
         password,
       });
 
@@ -67,7 +78,7 @@ export const Login = () => {
       <img
         src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
         alt="EduLink Logo"
-        className="h-40 w-auto animate-fade-in"
+        className="h-40 w-auto animate-fade-in mix-blend-multiply"
       />
       <Card className="w-[400px] animate-fade-up">
         <CardHeader className="space-y-1 text-center">
@@ -85,6 +96,7 @@ export const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full"
+                disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
@@ -97,6 +109,7 @@ export const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full"
+                disabled={isLoading}
               />
             </div>
             <Button 
@@ -115,6 +128,7 @@ export const Login = () => {
               variant="link" 
               className="p-0" 
               onClick={() => navigate("/register")}
+              disabled={isLoading}
             >
               Create one
             </Button>
