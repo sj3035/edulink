@@ -87,28 +87,26 @@ export const Community = () => {
       return;
     }
 
-    if (!requestedChats.includes(chatId)) {
-      const { error } = await supabase.from("chat_room_members").insert({
-        chat_room_id: chatId,
-        user_id: userData.user.id,
-        status: "pending",
-      });
+    const { error } = await supabase.from("chat_room_members").insert({
+      chat_room_id: chatId,
+      user_id: userData.user.id,
+      status: "pending",
+    });
 
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to send join request",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      setRequestedChats([...requestedChats, chatId]);
+    if (error) {
       toast({
-        title: "Chat Request Sent",
-        description: "Your request to join the chat has been sent to the moderators.",
+        title: "Error",
+        description: "Failed to send join request",
+        variant: "destructive",
       });
+      return;
     }
+
+    setRequestedChats([...requestedChats, chatId]);
+    toast({
+      title: "Success",
+      description: "Your request to join the chat has been sent.",
+    });
   };
 
   return (
@@ -168,7 +166,7 @@ export const Community = () => {
       ) : (
         <div className="space-y-6">
           {chatRooms.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-12 bg-white rounded-lg shadow-sm">
               <MessageSquare className="h-12 w-12 mx-auto text-gray-400 mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No Chat Rooms Available</h3>
               <p className="text-gray-500 mb-4">There are currently no chat rooms. Check back later or create one.</p>
@@ -180,7 +178,7 @@ export const Community = () => {
           ) : (
             <div className="grid gap-6 md:grid-cols-2">
               {chatRooms.map((chatRoom) => (
-                <Card key={chatRoom.id}>
+                <Card key={chatRoom.id} className="bg-white">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Lock className="h-4 w-4" />
@@ -210,7 +208,7 @@ export const Community = () => {
                       </Button>
                     ) : requestedChats.includes(chatRoom.id) ? (
                       <Button variant="outline" className="w-full" disabled>
-                        Requested
+                        Request Pending
                       </Button>
                     ) : (
                       <Button 
