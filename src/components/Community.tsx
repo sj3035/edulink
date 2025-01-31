@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Users, MessageSquare, Lock } from "lucide-react";
 import {
   Card,
@@ -14,12 +14,63 @@ import { useToast } from "@/hooks/use-toast";
 import { ChatInterface } from "./ChatInterface";
 import { supabase } from "@/integrations/supabase/client";
 
+interface ChatRoom {
+  id: string;
+  name: string;
+  created_at: string;
+}
+
 export const Community = () => {
   const [activeTab, setActiveTab] = useState<"forums" | "chats">("forums");
   const [requestedChats, setRequestedChats] = useState<string[]>([]);
   const [acceptedChats, setAcceptedChats] = useState<string[]>([]);
   const [activeChatRoom, setActiveChatRoom] = useState<string | null>(null);
+  const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    fetchChatRooms();
+    fetchUserChatStatus();
+  }, []);
+
+  const fetchChatRooms = async () => {
+    const { data, error } = await supabase
+      .from("chat_rooms")
+      .select("*")
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch chat rooms",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setChatRooms(data || []);
+  };
+
+  const fetchUserChatStatus = async () => {
+    const { data, error } = await supabase
+      .from("chat_room_members")
+      .select("chat_room_id, status");
+
+    if (error) {
+      console.error("Error fetching chat status:", error);
+      return;
+    }
+
+    const requested = data
+      .filter((member) => member.status === "pending")
+      .map((member) => member.chat_room_id);
+    const accepted = data
+      .filter((member) => member.status === "accepted")
+      .map((member) => member.chat_room_id);
+
+    setRequestedChats(requested);
+    setAcceptedChats(accepted);
+  };
 
   const handleJoinChat = async (chatId: string) => {
     if (!requestedChats.includes(chatId)) {
@@ -129,12 +180,12 @@ export const Community = () => {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
-          {["1", "2", "3", "4"].map((chatId) => (
-            <Card key={chatId}>
+          {chatRooms.map((chatRoom) => (
+            <Card key={chatRoom.id}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Lock className="h-4 w-4" />
-                  Study Group {chatId}
+                  {chatRoom.name}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -145,7 +196,7 @@ export const Community = () => {
                   {[1, 2, 3].map((user) => (
                     <Avatar key={user} className="border-2 border-background">
                       <AvatarImage
-                        src={`https://i.pravatar.cc/40?img=${user + Number(chatId)}`}
+                        src={`https://i.pravatar.cc/40?img=${user}`}
                       />
                       <AvatarFallback>U{user}</AvatarFallback>
                     </Avatar>
@@ -153,19 +204,19 @@ export const Community = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                {acceptedChats.includes(chatId) ? (
+                {acceptedChats.includes(chatRoom.id) ? (
                   <Button
-                    onClick={() => setActiveChatRoom(chatId)}
+                    onClick={() => setActiveChatRoom(chatRoom.id)}
                     className="w-full bg-green-500 hover:bg-green-600"
                   >
                     Open Chat
                   </Button>
-                ) : requestedChats.includes(chatId) ? (
+                ) : requestedChats.includes(chatRoom.id) ? (
                   <Button variant="outline" className="w-full" disabled>
                     Requested
                   </Button>
                 ) : (
-                  <Button onClick={() => handleJoinChat(chatId)} className="w-full">
+                  <Button onClick={() => handleJoinChat(chatRoom.id)} className="w-full">
                     Request to Join
                   </Button>
                 )}
