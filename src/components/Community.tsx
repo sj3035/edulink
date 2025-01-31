@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Users, MessageSquare, Lock } from "lucide-react";
+import { Users, MessageSquare, Lock, Plus } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -52,9 +52,13 @@ export const Community = () => {
   };
 
   const fetchUserChatStatus = async () => {
+    const { data: userData } = await supabase.auth.getUser();
+    if (!userData.user) return;
+
     const { data, error } = await supabase
       .from("chat_room_members")
-      .select("chat_room_id, status");
+      .select("chat_room_id, status")
+      .eq("user_id", userData.user.id);
 
     if (error) {
       console.error("Error fetching chat status:", error);
@@ -73,9 +77,20 @@ export const Community = () => {
   };
 
   const handleJoinChat = async (chatId: string) => {
+    const { data: userData } = await supabase.auth.getUser();
+    if (!userData.user) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to join a chat",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!requestedChats.includes(chatId)) {
       const { error } = await supabase.from("chat_room_members").insert({
         chat_room_id: chatId,
+        user_id: userData.user.id,
         status: "pending",
       });
 
@@ -91,39 +106,9 @@ export const Community = () => {
       setRequestedChats([...requestedChats, chatId]);
       toast({
         title: "Chat Request Sent",
-        description:
-          "Your request to join the chat has been sent to the moderators.",
-      });
-
-      await supabase.from("notifications").insert({
-        title: "New Chat Join Request",
-        content: `A user has requested to join Study Group ${chatId}`,
-        type: "chat_request",
+        description: "Your request to join the chat has been sent to the moderators.",
       });
     }
-  };
-
-  const handleAcceptRequest = async (chatId: string) => {
-    const { error } = await supabase
-      .from("chat_room_members")
-      .update({ status: "accepted" })
-      .eq("chat_room_id", chatId);
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to accept request",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setRequestedChats(requestedChats.filter((id) => id !== chatId));
-    setAcceptedChats([...acceptedChats, chatId]);
-    toast({
-      title: "Request Accepted",
-      description: "You can now join the chat group!",
-    });
   };
 
   return (
@@ -137,12 +122,14 @@ export const Community = () => {
         <Button
           variant={activeTab === "forums" ? "default" : "outline"}
           onClick={() => setActiveTab("forums")}
+          className={activeTab === "forums" ? "bg-purple-500 hover:bg-purple-600" : ""}
         >
           Forums
         </Button>
         <Button
           variant={activeTab === "chats" ? "default" : "outline"}
           onClick={() => setActiveTab("chats")}
+          className={activeTab === "chats" ? "bg-purple-500 hover:bg-purple-600" : ""}
         >
           Group Chats
         </Button>
@@ -179,50 +166,65 @@ export const Community = () => {
           </Card>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2">
-          {chatRooms.map((chatRoom) => (
-            <Card key={chatRoom.id}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" />
-                  {chatRoom.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  A secure chat group for focused study discussions.
-                </p>
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map((user) => (
-                    <Avatar key={user} className="border-2 border-background">
-                      <AvatarImage
-                        src={`https://i.pravatar.cc/40?img=${user}`}
-                      />
-                      <AvatarFallback>U{user}</AvatarFallback>
-                    </Avatar>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter>
-                {acceptedChats.includes(chatRoom.id) ? (
-                  <Button
-                    onClick={() => setActiveChatRoom(chatRoom.id)}
-                    className="w-full bg-green-500 hover:bg-green-600"
-                  >
-                    Open Chat
-                  </Button>
-                ) : requestedChats.includes(chatRoom.id) ? (
-                  <Button variant="outline" className="w-full" disabled>
-                    Requested
-                  </Button>
-                ) : (
-                  <Button onClick={() => handleJoinChat(chatRoom.id)} className="w-full">
-                    Request to Join
-                  </Button>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
+        <div className="space-y-6">
+          {chatRooms.length === 0 ? (
+            <div className="text-center py-12">
+              <MessageSquare className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No Chat Rooms Available</h3>
+              <p className="text-gray-500 mb-4">There are currently no chat rooms. Check back later or create one.</p>
+              <Button className="bg-purple-500 hover:bg-purple-600">
+                <Plus className="h-4 w-4 mr-2" />
+                Create Chat Room
+              </Button>
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2">
+              {chatRooms.map((chatRoom) => (
+                <Card key={chatRoom.id}>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Lock className="h-4 w-4" />
+                      {chatRoom.name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      A secure chat group for focused study discussions.
+                    </p>
+                    <div className="flex -space-x-2">
+                      {[1, 2, 3].map((user) => (
+                        <Avatar key={user} className="border-2 border-background">
+                          <AvatarImage src={`https://i.pravatar.cc/40?img=${user}`} />
+                          <AvatarFallback>U{user}</AvatarFallback>
+                        </Avatar>
+                      ))}
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    {acceptedChats.includes(chatRoom.id) ? (
+                      <Button
+                        onClick={() => setActiveChatRoom(chatRoom.id)}
+                        className="w-full bg-green-500 hover:bg-green-600"
+                      >
+                        Open Chat
+                      </Button>
+                    ) : requestedChats.includes(chatRoom.id) ? (
+                      <Button variant="outline" className="w-full" disabled>
+                        Requested
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={() => handleJoinChat(chatRoom.id)} 
+                        className="w-full bg-purple-500 hover:bg-purple-600"
+                      >
+                        Request to Join
+                      </Button>
+                    )}
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
