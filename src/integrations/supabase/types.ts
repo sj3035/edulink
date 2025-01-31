@@ -9,6 +9,115 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          chat_room_id: string | null
+          content: string
+          created_at: string
+          file_url: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          chat_room_id?: string | null
+          content: string
+          created_at?: string
+          file_url?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          chat_room_id?: string | null
+          content?: string
+          created_at?: string
+          file_url?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_chat_room_id_fkey"
+            columns: ["chat_room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_room_members: {
+        Row: {
+          chat_room_id: string | null
+          created_at: string
+          id: string
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          chat_room_id?: string | null
+          created_at?: string
+          id?: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          chat_room_id?: string | null
+          created_at?: string
+          id?: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_room_members_chat_room_id_fkey"
+            columns: ["chat_room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_rooms: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      forum_posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       goals: {
         Row: {
           completed_at: string | null
@@ -32,6 +141,36 @@ export type Database = {
           id?: string
           progress?: number | null
           title?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          read: boolean | null
+          title: string
+          type: string
+          user_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          read?: boolean | null
+          title: string
+          type: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          read?: boolean | null
+          title?: string
+          type?: string
           user_id?: string | null
         }
         Relationships: []
