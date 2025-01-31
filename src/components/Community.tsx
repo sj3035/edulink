@@ -16,12 +16,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Community = () => {
   const [activeTab, setActiveTab] = useState<"forums" | "chats">("forums");
-  const [requestedChats, setRequestedChats] = useState<number[]>([]);
-  const [acceptedChats, setAcceptedChats] = useState<number[]>([]);
+  const [requestedChats, setRequestedChats] = useState<string[]>([]);
+  const [acceptedChats, setAcceptedChats] = useState<string[]>([]);
   const [activeChatRoom, setActiveChatRoom] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const handleJoinChat = async (chatId: number) => {
+  const handleJoinChat = async (chatId: string) => {
     if (!requestedChats.includes(chatId)) {
       const { error } = await supabase.from("chat_room_members").insert({
         chat_room_id: chatId,
@@ -44,7 +44,6 @@ export const Community = () => {
           "Your request to join the chat has been sent to the moderators.",
       });
 
-      // Create a notification for moderators (in a real app, this would be handled by a backend function)
       await supabase.from("notifications").insert({
         title: "New Chat Join Request",
         content: `A user has requested to join Study Group ${chatId}`,
@@ -53,7 +52,7 @@ export const Community = () => {
     }
   };
 
-  const handleAcceptRequest = async (chatId: number) => {
+  const handleAcceptRequest = async (chatId: string) => {
     const { error } = await supabase
       .from("chat_room_members")
       .update({ status: "accepted" })
@@ -130,12 +129,12 @@ export const Community = () => {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
-          {[1, 2, 3, 4].map((chat) => (
-            <Card key={chat}>
+          {["1", "2", "3", "4"].map((chatId) => (
+            <Card key={chatId}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Lock className="h-4 w-4" />
-                  Study Group {chat}
+                  Study Group {chatId}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -146,7 +145,7 @@ export const Community = () => {
                   {[1, 2, 3].map((user) => (
                     <Avatar key={user} className="border-2 border-background">
                       <AvatarImage
-                        src={`https://i.pravatar.cc/40?img=${user + chat}`}
+                        src={`https://i.pravatar.cc/40?img=${user + Number(chatId)}`}
                       />
                       <AvatarFallback>U{user}</AvatarFallback>
                     </Avatar>
@@ -154,19 +153,19 @@ export const Community = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                {acceptedChats.includes(chat) ? (
+                {acceptedChats.includes(chatId) ? (
                   <Button
-                    onClick={() => setActiveChatRoom(chat.toString())}
+                    onClick={() => setActiveChatRoom(chatId)}
                     className="w-full bg-green-500 hover:bg-green-600"
                   >
                     Open Chat
                   </Button>
-                ) : requestedChats.includes(chat) ? (
+                ) : requestedChats.includes(chatId) ? (
                   <Button variant="outline" className="w-full" disabled>
                     Requested
                   </Button>
                 ) : (
-                  <Button onClick={() => handleJoinChat(chat)} className="w-full">
+                  <Button onClick={() => handleJoinChat(chatId)} className="w-full">
                     Request to Join
                   </Button>
                 )}
