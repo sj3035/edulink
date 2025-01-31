@@ -10,35 +10,71 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { ChatInterface } from "./ChatInterface";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Community = () => {
   const [activeTab, setActiveTab] = useState<"forums" | "chats">("forums");
   const [requestedChats, setRequestedChats] = useState<number[]>([]);
   const [acceptedChats, setAcceptedChats] = useState<number[]>([]);
+  const [activeChatRoom, setActiveChatRoom] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const handleJoinChat = (chatId: number) => {
+  const handleJoinChat = async (chatId: number) => {
     if (!requestedChats.includes(chatId)) {
+      const { error } = await supabase.from("chat_room_members").insert({
+        chat_room_id: chatId,
+        status: "pending",
+      });
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to send join request",
+          variant: "destructive",
+        });
+        return;
+      }
+
       setRequestedChats([...requestedChats, chatId]);
       toast({
         title: "Chat Request Sent",
-        description: "Your request to join the chat has been sent to the moderators.",
+        description:
+          "Your request to join the chat has been sent to the moderators.",
+      });
+
+      // Create a notification for moderators (in a real app, this would be handled by a backend function)
+      await supabase.from("notifications").insert({
+        title: "New Chat Join Request",
+        content: `A user has requested to join Study Group ${chatId}`,
+        type: "chat_request",
       });
     }
   };
 
-  // Simulate admin accepting request (in real app this would come from backend)
-  const simulateAcceptRequest = (chatId: number) => {
-    setRequestedChats(requestedChats.filter(id => id !== chatId));
+  const handleAcceptRequest = async (chatId: number) => {
+    const { error } = await supabase
+      .from("chat_room_members")
+      .update({ status: "accepted" })
+      .eq("chat_room_id", chatId);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to accept request",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setRequestedChats(requestedChats.filter((id) => id !== chatId));
     setAcceptedChats([...acceptedChats, chatId]);
     toast({
       title: "Request Accepted",
       description: "You can now join the chat group!",
     });
   };
-
-  // ... keep existing code (forums section)
 
   return (
     <div className="container mx-auto p-6 space-y-8">
@@ -119,8 +155,11 @@ export const Community = () => {
               </CardContent>
               <CardFooter>
                 {acceptedChats.includes(chat) ? (
-                  <Button onClick={() => {}} className="w-full bg-green-500 hover:bg-green-600">
-                    Join Chat
+                  <Button
+                    onClick={() => setActiveChatRoom(chat.toString())}
+                    className="w-full bg-green-500 hover:bg-green-600"
+                  >
+                    Open Chat
                   </Button>
                 ) : requestedChats.includes(chat) ? (
                   <Button variant="outline" className="w-full" disabled>
@@ -134,6 +173,17 @@ export const Community = () => {
               </CardFooter>
             </Card>
           ))}
+        </div>
+      )}
+
+      {activeChatRoom && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="w-full max-w-4xl">
+            <ChatInterface
+              chatRoomId={activeChatRoom}
+              onClose={() => setActiveChatRoom(null)}
+            />
+          </div>
         </div>
       )}
     </div>
