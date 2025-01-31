@@ -25,20 +25,20 @@ export const MatchedUserCard = ({ match, index, onConnect }: MatchedUserCardProp
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
     >
-      <Card className="p-6">
-        <div className="flex items-center justify-between flex-wrap gap-4">
+      <Card className="p-6 hover:shadow-lg transition-shadow duration-300 bg-white">
+        <div className="space-y-4">
           <div className="flex items-center gap-4">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
               <Users className="h-6 w-6 text-primary" />
             </div>
-            <div>
-              <h3 className="text-lg font-semibold">{match.name}</h3>
-              <div className="flex gap-2 mt-1">
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold text-primary-dark">{match.name}</h3>
+              <div className="flex flex-wrap gap-2 mt-2">
                 {match.subjects.map((subject, idx) => (
                   <Badge
                     key={idx}
                     variant="secondary"
-                    className="flex items-center gap-1"
+                    className="bg-secondary text-primary px-3 py-1 rounded-full flex items-center gap-1"
                   >
                     <Book className="h-3 w-3" />
                     {subject}
@@ -46,29 +46,32 @@ export const MatchedUserCard = ({ match, index, onConnect }: MatchedUserCardProp
                 ))}
               </div>
             </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <Badge variant="default" className="text-lg">
+            <Badge 
+              variant="default" 
+              className="bg-primary text-white px-4 py-2 text-lg rounded-full"
+            >
               {match.compatibilityScore}% Match
             </Badge>
-            <Button
-              onClick={() => onConnect(match.name)}
-              variant="secondary"
-              className="whitespace-nowrap"
-            >
-              Connect
-            </Button>
           </div>
-        </div>
-        <div className="mt-4 flex gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
-            <Clock className="h-4 w-4" />
-            {match.studyTimes}
+          
+          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-primary" />
+              {match.studyTimes}
+            </div>
+            <div className="flex items-center gap-2">
+              <Brain className="h-4 w-4 text-primary" />
+              {match.learningStyle} Learner
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <Brain className="h-4 w-4" />
-            {match.learningStyle} Learner
-          </div>
+          
+          <Button
+            onClick={() => onConnect(match.name)}
+            variant="secondary"
+            className="w-full bg-secondary hover:bg-secondary/80 text-primary font-medium"
+          >
+            Connect
+          </Button>
         </div>
       </Card>
     </motion.div>

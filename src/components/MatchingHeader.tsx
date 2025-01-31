@@ -12,13 +12,13 @@ export const MatchingHeader = ({ onFindMatches, isLoading }: MatchingHeaderProps
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="text-center space-y-6"
+      className="text-center space-y-6 max-w-2xl mx-auto mb-12"
     >
       <div>
-        <h2 className="text-3xl font-bold text-primary-dark mb-4">
+        <h2 className="text-4xl font-bold text-primary-dark mb-4">
           Find Your Study Partners
         </h2>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground text-lg">
           Our smart algorithm matches you with compatible study partners based on
           your profile
         </p>
@@ -29,7 +29,7 @@ export const MatchingHeader = ({ onFindMatches, isLoading }: MatchingHeaderProps
           onClick={onFindMatches}
           disabled={isLoading}
           size="lg"
-          className="bg-primary hover:bg-primary/90"
+          className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-full h-auto"
         >
           {isLoading ? "Finding Matches..." : "Find Study Partners"}
         </Button>
