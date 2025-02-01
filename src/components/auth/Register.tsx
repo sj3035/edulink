@@ -76,22 +76,22 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-16 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary-light via-secondary to-primary-light gap-16 p-4">
       <img
         src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
         alt="EduLink Logo"
         className="h-48 w-auto animate-fade-in mix-blend-multiply"
       />
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border-white/20">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
+          <CardTitle className="text-2xl font-bold text-center text-white">
             Create an Account
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-white">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -99,11 +99,12 @@ export const Register = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
                 disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-white">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -111,11 +112,12 @@ export const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
                 disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -123,20 +125,25 @@ export const Register = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
                 disabled={isLoading}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full bg-white text-primary hover:bg-white/90"
+              disabled={isLoading}
+            >
               {isLoading ? "Creating account..." : "Register"}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-white/80">
             Already have an account?{" "}
             <Button
               variant="link"
-              className="p-0"
+              className="p-0 text-white hover:text-white/80"
               onClick={() => navigate("/login")}
               disabled={isLoading}
             >

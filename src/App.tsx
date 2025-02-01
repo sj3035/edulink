@@ -29,6 +29,7 @@ function App() {
               <Route path="progress" element={<ProgressTracking />} />
               <Route path="profile" element={<UserProfile />} />
             </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster />
         </BrowserRouter>

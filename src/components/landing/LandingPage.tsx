@@ -19,7 +19,7 @@ export const LandingPage = () => {
               <img
                 src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
                 alt="EduLink Logo"
-                className="h-12 w-auto"
+                className="h-16 w-auto mix-blend-multiply"
               />
             </motion.div>
             <div className="flex gap-4">

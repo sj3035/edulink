@@ -74,20 +74,20 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary/30 gap-16 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary-light via-secondary to-primary-light gap-16 p-4">
       <img
         src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
         alt="EduLink Logo"
         className="h-48 w-auto animate-fade-in mix-blend-multiply"
       />
-      <Card className="w-[400px] animate-fade-up">
+      <Card className="w-[400px] animate-fade-up bg-white/10 backdrop-blur-md border-white/20">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-semibold">Sign in to your account</CardTitle>
+          <CardTitle className="text-2xl font-semibold text-white">Sign in to your account</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-white">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -95,12 +95,12 @@ export const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full"
+                className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
                 disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-white">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -108,13 +108,13 @@ export const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full"
+                className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
                 disabled={isLoading}
               />
             </div>
             <Button 
               type="submit" 
-              className="w-full" 
+              className="w-full bg-white text-primary hover:bg-white/90" 
               disabled={isLoading}
             >
               {isLoading ? "Signing in..." : "Sign in"}
@@ -122,11 +122,11 @@ export const Login = () => {
           </form>
         </CardContent>
         <CardFooter>
-          <div className="text-sm text-center w-full text-muted-foreground">
+          <div className="text-sm text-center w-full text-white/80">
             Don't have an account?{" "}
             <Button 
               variant="link" 
-              className="p-0" 
+              className="p-0 text-white hover:text-white/80" 
               onClick={() => navigate("/register")}
               disabled={isLoading}
             >
