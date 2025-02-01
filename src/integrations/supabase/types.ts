@@ -48,23 +48,29 @@ export type Database = {
         Row: {
           chat_room_id: string | null
           created_at: string
+          email_verified: boolean | null
           id: string
           status: string | null
           user_id: string | null
+          verification_token: string | null
         }
         Insert: {
           chat_room_id?: string | null
           created_at?: string
+          email_verified?: boolean | null
           id?: string
           status?: string | null
           user_id?: string | null
+          verification_token?: string | null
         }
         Update: {
           chat_room_id?: string | null
           created_at?: string
+          email_verified?: boolean | null
           id?: string
           status?: string | null
           user_id?: string | null
+          verification_token?: string | null
         }
         Relationships: [
           {
@@ -80,17 +86,23 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          learning_style: string | null
           name: string
+          subjects: string[] | null
         }
         Insert: {
           created_at?: string
           id?: string
+          learning_style?: string | null
           name: string
+          subjects?: string[] | null
         }
         Update: {
           created_at?: string
           id?: string
+          learning_style?: string | null
           name?: string
+          subjects?: string[] | null
         }
         Relationships: []
       }
@@ -216,7 +228,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      match_chat_rooms: {
+        Args: {
+          user_id: string
+        }
+        Returns: {
+          id: string
+          name: string
+          subjects: string[]
+          learning_style: string
+          compatibility_score: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
