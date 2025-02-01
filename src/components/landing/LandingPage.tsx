@@ -6,7 +6,7 @@ export const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-light via-secondary to-primary-light">
+    <div className="min-h-screen bg-gradient-to-br from-primary via-accent to-secondary">
       {/* Navigation */}
       <nav className="fixed w-full top-0 z-50">
         <div className="container mx-auto px-6 py-4">
@@ -19,13 +19,13 @@ export const LandingPage = () => {
               <img
                 src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
                 alt="EduLink Logo"
-                className="h-16 w-auto mix-blend-multiply"
+                className="h-20 w-auto object-contain mix-blend-luminosity"
               />
             </motion.div>
             <div className="flex gap-4">
               <Button
                 variant="ghost"
-                className="bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300"
+                className="bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
                 onClick={() => navigate("/login")}
               >
                 Login
@@ -52,7 +52,7 @@ export const LandingPage = () => {
           >
             <h1 className="text-5xl md:text-6xl font-bold text-white">
               Connect with Study Partners,{" "}
-              <span className="text-primary-dark">Excel Together</span>
+              <span className="text-secondary">Excel Together</span>
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
               Join EduLink to find study partners who match your learning style, subjects, and schedule.
