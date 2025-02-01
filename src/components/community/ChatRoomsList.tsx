@@ -29,10 +29,12 @@ export const ChatRoomsList = ({
   }, []);
 
   const fetchChatRooms = async () => {
-    const { data, error } = await supabase
-      .from("chat_rooms")
-      .select("*")
-      .order("created_at", { ascending: true });
+    const { data: userData } = await supabase.auth.getUser();
+    if (!userData.user) return;
+
+    const { data, error } = await supabase.rpc('match_chat_rooms', {
+      user_id: userData.user.id
+    });
 
     if (error) {
       toast({
