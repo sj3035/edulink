@@ -9,6 +9,7 @@ import { Login } from "./components/auth/Login";
 import { Register } from "./components/auth/Register";
 import { Dashboard } from "./components/Dashboard";
 import { Toaster } from "./components/ui/toaster";
+import { LandingPage } from "./components/landing/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ function App() {
       <TooltipProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/create-profile" element={<UserProfile />} />
@@ -27,7 +29,6 @@ function App() {
               <Route path="progress" element={<ProgressTracking />} />
               <Route path="profile" element={<UserProfile />} />
             </Route>
-            <Route path="/" element={<Navigate to="/login" replace />} />
           </Routes>
           <Toaster />
         </BrowserRouter>
