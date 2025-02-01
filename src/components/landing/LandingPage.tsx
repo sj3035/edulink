@@ -17,9 +17,9 @@ export const LandingPage = () => {
               transition={{ duration: 0.5 }}
             >
               <img
-                src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
+                src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
                 alt="EduLink Logo"
-                className="h-20 w-auto object-contain mix-blend-luminosity"
+                className="h-24 w-auto object-contain"
               />
             </motion.div>
             <div className="flex gap-4">

@@ -74,11 +74,11 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary-light via-secondary to-primary-light gap-16 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary via-accent to-secondary gap-16 p-4">
       <img
-        src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
+        src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
         alt="EduLink Logo"
-        className="h-48 w-auto animate-fade-in mix-blend-multiply"
+        className="h-48 w-auto animate-fade-in"
       />
       <Card className="w-[400px] animate-fade-up bg-white/10 backdrop-blur-md border-white/20">
         <CardHeader className="space-y-1 text-center">
