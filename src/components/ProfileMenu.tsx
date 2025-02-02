@@ -15,12 +15,22 @@ export const ProfileMenu = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogout = () => {
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out",
-    });
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out",
+      });
+      navigate("/");
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+      });
+    }
   };
 
   return (
