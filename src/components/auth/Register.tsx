@@ -76,11 +76,11 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary via-accent to-secondary gap-16 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#6E59A5] via-[#9b87f5] to-[#D6BCFA] gap-16 p-4">
       <img
         src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
         alt="EduLink Logo"
-        className="h-48 w-auto animate-fade-in"
+        className="h-28 w-auto animate-fade-in"
       />
       <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border-white/20">
         <CardHeader className="space-y-1">

@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Map } from "../Map";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-accent to-secondary">
+    <div className="min-h-screen bg-gradient-to-br from-[#6E59A5] via-[#9b87f5] to-[#D6BCFA]">
       {/* Navigation */}
       <nav className="fixed w-full top-0 z-50">
         <div className="container mx-auto px-6 py-4">
@@ -19,7 +20,7 @@ export const LandingPage = () => {
               <img
                 src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
                 alt="EduLink Logo"
-                className="h-24 w-auto object-contain"
+                className="h-28 w-auto object-contain"
               />
             </motion.div>
             <div className="flex gap-4">
@@ -31,7 +32,7 @@ export const LandingPage = () => {
                 Login
               </Button>
               <Button
-                className="bg-primary hover:bg-primary/90 text-white"
+                className="bg-white text-primary hover:bg-white/90"
                 onClick={() => navigate("/register")}
               >
                 Create Account
@@ -96,6 +97,118 @@ export const LandingPage = () => {
                 <p className="text-white/80">{feature.description}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section className="py-20 px-4 bg-white/5">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-white mb-4">About Us</h2>
+            <p className="text-xl text-white/80 max-w-2xl mx-auto">
+              EduLink is revolutionizing the way students learn and collaborate. Our platform brings together
+              dedicated learners, creating a vibrant community focused on academic success.
+            </p>
+          </motion.div>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="space-y-6"
+            >
+              <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+                <h3 className="text-2xl font-semibold text-white mb-4">Our Mission</h3>
+                <p className="text-white/80">
+                  To create a collaborative learning environment where students can connect, share knowledge,
+                  and achieve their academic goals together.
+                </p>
+              </div>
+              <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+                <h3 className="text-2xl font-semibold text-white mb-4">Our Vision</h3>
+                <p className="text-white/80">
+                  To become the leading platform for student collaboration and peer-to-peer learning,
+                  making quality education accessible to all.
+                </p>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="grid grid-cols-2 gap-4"
+            >
+              <div className="aspect-square rounded-xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3"
+                  alt="Students collaborating"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-square rounded-xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3"
+                  alt="Online learning"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Us Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-white mb-4">Contact Us</h2>
+            <p className="text-xl text-white/80 max-w-2xl mx-auto">
+              Have questions? We're here to help! Reach out to us through any of these channels.
+            </p>
+          </motion.div>
+          <div className="grid md:grid-cols-2 gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="space-y-8"
+            >
+              <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+                <h3 className="text-2xl font-semibold text-white mb-4">Get in Touch</h3>
+                <div className="space-y-4 text-white/80">
+                  <p>📧 support@edulink.com</p>
+                  <p>📞 +1 (555) 123-4567</p>
+                  <p>🏢 123 Learning Street, Education City, EC 12345</p>
+                </div>
+              </div>
+              <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+                <h3 className="text-2xl font-semibold text-white mb-4">Office Hours</h3>
+                <div className="space-y-2 text-white/80">
+                  <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                  <p>Saturday: 10:00 AM - 2:00 PM</p>
+                  <p>Sunday: Closed</p>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="rounded-xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20"
+            >
+              <Map />
+            </motion.div>
           </div>
         </div>
       </section>
