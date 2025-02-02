@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Map } from "../Map";
+import Map from "../Map";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
