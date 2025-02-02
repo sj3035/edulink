@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { NotificationsMenu } from "./NotificationsMenu";
+import { supabase } from "@/integrations/supabase/client";
 
 export const ProfileMenu = () => {
   const navigate = useNavigate();
