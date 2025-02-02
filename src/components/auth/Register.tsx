@@ -80,7 +80,7 @@ export const Register = () => {
       <img
         src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
         alt="EduLink Logo"
-        className="h-28 w-auto animate-fade-in"
+        className="h-28 w-auto animate-fade-in drop-shadow-lg filter brightness-110 contrast-125"
       />
       <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border-white/20">
         <CardHeader className="space-y-1">

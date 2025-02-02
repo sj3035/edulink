@@ -11,7 +11,7 @@ export const Dashboard = () => {
               <img
                 src="/lovable-uploads/9c2e0ef8-56c7-489c-a082-a92d9d582760.png"
                 alt="EduLink Logo"
-                className="h-12 w-auto transition-transform duration-300 hover:scale-105"
+                className="h-12 w-auto transition-transform duration-300 hover:scale-105 drop-shadow-md filter brightness-105 contrast-115"
               />
             </div>
             <ProfileMenu />
