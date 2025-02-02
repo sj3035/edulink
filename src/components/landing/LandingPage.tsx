@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Map from "../Map";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -205,9 +204,15 @@ export const LandingPage = () => {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
-              className="rounded-xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20"
+              className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <Map />
+              <div className="aspect-square rounded-xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3"
+                  alt="Our office"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
