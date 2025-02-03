@@ -78,19 +78,19 @@ export const Register = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#6E59A5] via-[#9b87f5] to-[#D6BCFA] gap-16 p-4">
-      <div className="w-full max-w-md relative">
+      <div className="w-full max-w-md relative px-8">
         <Button
           variant="ghost"
           size="icon"
-          className="absolute left-0 top-0 text-white hover:bg-white/10"
+          className="absolute left-0 top-1/2 -translate-y-1/2 text-white hover:bg-white/10"
           onClick={() => navigate("/")}
         >
           <ArrowLeft className="h-6 w-6" />
         </Button>
         <img
-          src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
+          src="/lovable-uploads/78f48b30-f42c-4945-8452-940e9c919cfc.png"
           alt="EduLink Logo"
-          className="h-28 w-auto animate-fade-in drop-shadow-lg filter brightness-110 contrast-125"
+          className="h-28 w-auto mx-auto animate-fade-in drop-shadow-lg filter brightness-110 contrast-125"
         />
       </div>
       <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border-white/20">
