@@ -26,7 +26,7 @@ export const CTA = () => {
         <Button
           size="lg"
           variant="secondary"
-          className="text-lg px-8 hover:bg-background/90 transition-colors"
+          className="text-lg px-8 bg-white text-primary hover:bg-white/90 transition-colors"
           onClick={handleGetStarted}
         >
           Get Started Now

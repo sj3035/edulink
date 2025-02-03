@@ -22,10 +22,17 @@ export const Hero = () => {
           schedule, subjects, and learning style.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="text-lg px-8">
+          <Button 
+            size="lg" 
+            className="text-lg px-8 bg-primary text-white hover:bg-primary/90 transition-colors"
+          >
             Get Started
           </Button>
-          <Button size="lg" variant="outline" className="text-lg px-8">
+          <Button 
+            size="lg" 
+            variant="outline" 
+            className="text-lg px-8 border-primary text-primary hover:bg-primary/10 transition-colors"
+          >
             Learn More
           </Button>
         </div>
