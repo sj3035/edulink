@@ -6,6 +6,7 @@ import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { ArrowLeft } from "lucide-react";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -77,11 +78,21 @@ export const Register = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#6E59A5] via-[#9b87f5] to-[#D6BCFA] gap-16 p-4">
-      <img
-        src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
-        alt="EduLink Logo"
-        className="h-28 w-auto animate-fade-in drop-shadow-lg filter brightness-110 contrast-125"
-      />
+      <div className="w-full max-w-md relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute left-0 top-0 text-white hover:bg-white/10"
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </Button>
+        <img
+          src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
+          alt="EduLink Logo"
+          className="h-28 w-auto animate-fade-in drop-shadow-lg filter brightness-110 contrast-125"
+        />
+      </div>
       <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border-white/20">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center text-white">

@@ -10,31 +10,34 @@ import { Register } from "./components/auth/Register";
 import { Dashboard } from "./components/Dashboard";
 import { Toaster } from "./components/ui/toaster";
 import { LandingPage } from "./components/landing/LandingPage";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/create-profile" element={<UserProfile />} />
-            <Route path="/dashboard" element={<Dashboard />}>
-              <Route path="matching" element={<MatchingModule />} />
-              <Route path="community" element={<Community />} />
-              <Route path="progress" element={<ProgressTracking />} />
-              <Route path="profile" element={<UserProfile />} />
-            </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-          <Toaster />
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ThemeProvider defaultTheme="system" storageKey="edulink-theme">
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/create-profile" element={<UserProfile />} />
+              <Route path="/dashboard" element={<Dashboard />}>
+                <Route path="matching" element={<MatchingModule />} />
+                <Route path="community" element={<Community />} />
+                <Route path="progress" element={<ProgressTracking />} />
+                <Route path="profile" element={<UserProfile />} />
+              </Route>
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+            <Toaster />
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
