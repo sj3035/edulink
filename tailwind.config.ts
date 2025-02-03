@@ -87,12 +87,21 @@ export default {
             opacity: "1",
           },
         },
+        "button-glow": {
+          "0%, 100%": {
+            boxShadow: "0 0 15px rgba(155, 135, 245, 0.5)",
+          },
+          "50%": {
+            boxShadow: "0 0 30px rgba(155, 135, 245, 0.8)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-up": "fade-up 0.5s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
+        "button-glow": "button-glow 2s ease-in-out infinite",
       },
     },
   },

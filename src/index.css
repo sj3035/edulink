@@ -51,9 +51,33 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border selection:bg-white/10 selection:text-white;
   }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
   body {
     @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)];
+  }
+  
+  .glass-card {
+    @apply backdrop-blur-md bg-white/20 border border-white/30 shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+  
+  .glass-button {
+    @apply backdrop-blur-sm bg-white/20 border border-white/30 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+  }
+  
+  .magic-button {
+    @apply relative overflow-hidden bg-gradient-to-r from-primary to-accent text-white shadow-lg
+           hover:shadow-xl transition-all duration-300 hover:scale-105 animate-button-glow;
   }
 }

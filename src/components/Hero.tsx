@@ -8,9 +8,9 @@ export const Hero = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-3xl mx-auto space-y-8"
+        className="text-center max-w-3xl mx-auto space-y-8 glass p-8 rounded-2xl"
       >
-        <span className="inline-block px-4 py-1.5 bg-primary/10 rounded-full text-primary text-sm font-medium mb-4">
+        <span className="inline-block px-4 py-1.5 glass-card rounded-full text-primary text-sm font-medium mb-4">
           Find Your Perfect Study Partner
         </span>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
@@ -24,14 +24,14 @@ export const Hero = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button 
             size="lg" 
-            className="text-lg px-8 bg-primary text-white hover:bg-primary/90 transition-colors"
+            className="magic-button text-lg px-8"
           >
             Get Started
           </Button>
           <Button 
             size="lg" 
             variant="outline" 
-            className="text-lg px-8 border-primary text-primary hover:bg-primary/10 transition-colors"
+            className="glass-button text-lg px-8"
           >
             Learn More
           </Button>

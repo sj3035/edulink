@@ -16,7 +16,7 @@ export const CTA = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="max-w-4xl mx-auto text-center space-y-8"
+        className="max-w-4xl mx-auto text-center space-y-8 glass p-8 rounded-2xl"
       >
         <h2 className="text-3xl sm:text-4xl font-bold">Ready to Transform Your Learning Journey?</h2>
         <p className="text-lg opacity-90 max-w-2xl mx-auto">
@@ -26,7 +26,7 @@ export const CTA = () => {
         <Button
           size="lg"
           variant="secondary"
-          className="text-lg px-8 bg-white text-primary hover:bg-white/90 transition-colors"
+          className="magic-button text-lg px-8"
           onClick={handleGetStarted}
         >
           Get Started Now
