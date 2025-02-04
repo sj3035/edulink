@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import OfficeMap from "./OfficeMap";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ export const LandingPage = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white/10 text-lg px-8"
+                className="border-white text-white hover:bg-white/10 hover:text-white text-lg px-8"
                 onClick={() => navigate("/login")}
               >
                 Learn More
@@ -188,7 +189,7 @@ export const LandingPage = () => {
                 <div className="space-y-4 text-white/80">
                   <p>📧 support@edulink.com</p>
                   <p>📞 +1 (555) 123-4567</p>
-                  <p>🏢 123 Learning Street, Education City, EC 12345</p>
+                  <p>🏢 SRM Institute of Science and Technology, Tiruchirappalli</p>
                 </div>
               </div>
               <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
@@ -206,13 +207,7 @@ export const LandingPage = () => {
               transition={{ duration: 0.7 }}
               className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20"
             >
-              <div className="aspect-square rounded-xl overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3"
-                  alt="Our office"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <OfficeMap />
             </motion.div>
           </div>
         </div>
