@@ -31,7 +31,7 @@ export const Hero = () => {
           <Button 
             size="lg" 
             variant="outline" 
-            className="glass-button text-lg px-8"
+            className="glass-button text-lg px-8 text-primary hover:text-primary-foreground"
           >
             Learn More
           </Button>
