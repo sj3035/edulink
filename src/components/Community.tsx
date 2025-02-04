@@ -7,11 +7,14 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { MyPosts } from "./community/MyPosts";
 
 export const Community = () => {
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const { toast } = useToast();
 
   const handleCreatePost = async (e: React.FormEvent) => {
@@ -27,9 +30,33 @@ export const Community = () => {
     }
 
     try {
+      let fileUrl = null;
+      
+      if (file) {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${crypto.randomUUID()}.${fileExt}`;
+        
+        const { error: uploadError, data } = await supabase.storage
+          .from('forum_attachments')
+          .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+        
+        const { data: { publicUrl } } = supabase.storage
+          .from('forum_attachments')
+          .getPublicUrl(fileName);
+          
+        fileUrl = publicUrl;
+      }
+
       const { error } = await supabase
         .from('forum_posts')
-        .insert([{ title, content }]);
+        .insert([{ 
+          title, 
+          content,
+          file_url: fileUrl,
+          user_id: (await supabase.auth.getUser()).data.user?.id
+        }]);
 
       if (error) throw error;
 
@@ -41,6 +68,7 @@ export const Community = () => {
       setIsCreatingPost(false);
       setTitle("");
       setContent("");
+      setFile(null);
     } catch (error) {
       console.error('Error creating post:', error);
       toast({
@@ -85,6 +113,13 @@ export const Community = () => {
                   className="min-h-[100px]"
                 />
               </div>
+              <div className="space-y-2">
+                <Input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                />
+              </div>
               <div className="flex justify-end gap-2">
                 <Button
                   type="button"
@@ -100,13 +135,30 @@ export const Community = () => {
         </Dialog>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <MessageSquare className="h-5 w-5 text-purple-500" />
-          <h3 className="text-lg font-semibold">Recent Discussions</h3>
-        </div>
-        <ForumsList />
-      </div>
+      <Tabs defaultValue="discussions" className="w-full">
+        <TabsList>
+          <TabsTrigger value="discussions">Recent Discussions</TabsTrigger>
+          <TabsTrigger value="my-posts">My Posts</TabsTrigger>
+        </TabsList>
+        <TabsContent value="discussions">
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="flex items-center gap-2 mb-6">
+              <MessageSquare className="h-5 w-5 text-purple-500" />
+              <h3 className="text-lg font-semibold">Recent Discussions</h3>
+            </div>
+            <ForumsList />
+          </div>
+        </TabsContent>
+        <TabsContent value="my-posts">
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="flex items-center gap-2 mb-6">
+              <MessageSquare className="h-5 w-5 text-purple-500" />
+              <h3 className="text-lg font-semibold">My Posts</h3>
+            </div>
+            <MyPosts />
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
