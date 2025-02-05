@@ -184,10 +184,20 @@ export const LandingPage = () => {
               className="space-y-8"
             >
               <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+                <h3 className="text-2xl font-semibold text-white mb-4">Open Positions</h3>
+                <div className="space-y-4 text-white/80">
+                  <p>👨‍💻 Senior Learning Experience Designer</p>
+                  <p>🎯 Student Success Coordinator</p>
+                  <p>🤝 Community Partnership Manager</p>
+                </div>
+              </div>
+              <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
                 <h3 className="text-2xl font-semibold text-white mb-4">Get in Touch</h3>
                 <div className="space-y-4 text-white/80">
                   <p>📧 support@edulink.com</p>
-                  <p>📞 +1 (555) 123-4567</p>
+                  <p>📞 +91 9843296163</p>
+                  <p>📱 +91 9150947247</p>
+                  <p>📲 +91 8076725006</p>
                   <p>🏢 SRM Institute of Science and Technology, Tiruchirappalli</p>
                 </div>
               </div>
