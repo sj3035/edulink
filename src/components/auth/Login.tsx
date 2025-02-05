@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -7,6 +8,7 @@ import { useToast } from "../ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
 import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -89,63 +91,71 @@ export const Login = () => {
           src="/lovable-uploads/e400d7d0-6ab3-4bb2-8675-71937fb914ba.png"
           alt="EduLink Logo"
           className="h-28 w-auto mx-auto animate-fade-in drop-shadow-lg filter brightness-110 contrast-125"
+          loading="eager"
+          fetchpriority="high"
         />
       </div>
-      <Card className="w-[400px] animate-fade-up bg-white/10 backdrop-blur-md border-white/20">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-semibold text-white">Sign in to your account</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-white">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Card className="w-[400px] bg-white/10 backdrop-blur-md border-white/20">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-2xl font-semibold text-white">Sign in to your account</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-white">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="bg-white/20 border-white/20 text-white placeholder:text-white/60 transition-all duration-300 focus:scale-[1.02]"
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-white">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="bg-white/20 border-white/20 text-white placeholder:text-white/60 transition-all duration-300 focus:scale-[1.02]"
+                  disabled={isLoading}
+                />
+              </div>
+              <Button 
+                type="submit" 
+                className="w-full bg-white text-primary hover:bg-white/90 transition-all duration-300 hover:scale-105" 
                 disabled={isLoading}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-white">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
+              >
+                {isLoading ? "Signing in..." : "Sign in"}
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter>
+            <div className="text-sm text-center w-full text-white/80">
+              Don't have an account?{" "}
+              <Button 
+                variant="link" 
+                className="p-0 text-white hover:text-white/80 transition-all duration-300" 
+                onClick={() => navigate("/register")}
                 disabled={isLoading}
-              />
+              >
+                Create one
+              </Button>
             </div>
-            <Button 
-              type="submit" 
-              className="w-full bg-white text-primary hover:bg-white/90" 
-              disabled={isLoading}
-            >
-              {isLoading ? "Signing in..." : "Sign in"}
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter>
-          <div className="text-sm text-center w-full text-white/80">
-            Don't have an account?{" "}
-            <Button 
-              variant="link" 
-              className="p-0 text-white hover:text-white/80" 
-              onClick={() => navigate("/register")}
-              disabled={isLoading}
-            >
-              Create one
-            </Button>
-          </div>
-        </CardFooter>
-      </Card>
+          </CardFooter>
+        </Card>
+      </motion.div>
     </div>
   );
 };
