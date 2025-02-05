@@ -13,15 +13,53 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const validatePassword = (password: string) => {
+    const minLength = 8;
+    const maxLength = 15;
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+    if (password.length < minLength || password.length > maxLength) {
+      return "Password must be between 8 and 15 characters";
+    }
+    if (!hasLowerCase) {
+      return "Password must contain at least one lowercase letter";
+    }
+    if (!hasUpperCase) {
+      return "Password must contain at least one uppercase letter";
+    }
+    if (!hasNumber) {
+      return "Password must contain at least one number";
+    }
+    if (!hasSpecialChar) {
+      return "Password must contain at least one special character";
+    }
+    return "";
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // Validate passwords match
+      const passwordValidationError = validatePassword(password);
+      if (passwordValidationError) {
+        setPasswordError(passwordValidationError);
+        toast({
+          title: "Error",
+          description: passwordValidationError,
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+
       if (password !== confirmPassword) {
         toast({
           title: "Error",
@@ -31,17 +69,6 @@ export const Register = () => {
         return;
       }
 
-      // Validate password length
-      if (password.length < 6) {
-        toast({
-          title: "Error",
-          description: "Password must be at least 6 characters long",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Create user in Supabase
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password: password,
@@ -121,11 +148,17 @@ export const Register = () => {
                 type="password"
                 placeholder="Enter your password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError(validatePassword(e.target.value));
+                }}
                 required
                 className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
                 disabled={isLoading}
               />
+              {passwordError && (
+                <p className="text-sm text-red-300 mt-1">{passwordError}</p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
@@ -143,7 +176,7 @@ export const Register = () => {
             <Button 
               type="submit" 
               className="w-full bg-white text-primary hover:bg-white/90"
-              disabled={isLoading}
+              disabled={isLoading || !!passwordError}
             >
               {isLoading ? "Creating account..." : "Register"}
             </Button>

@@ -63,18 +63,19 @@ export const MatchingModule = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gradient-to-b from-white to-secondary/20">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen bg-gradient-to-b from-white to-secondary/20">
       <div className="mb-12">
         <MatchingHeader onFindMatches={handleFindMatches} isLoading={isLoading} />
       </div>
       <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
         {matches.map((match, index) => (
-          <MatchedUserCard 
-            key={match.id} 
-            match={match} 
-            index={index} 
-            onConnect={handleConnect}
-          />
+          <div key={match.id} className="h-full">
+            <MatchedUserCard 
+              match={match} 
+              index={index} 
+              onConnect={handleConnect}
+            />
+          </div>
         ))}
       </div>
       <SchedulingAndResources
