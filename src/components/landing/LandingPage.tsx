@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import OfficeMap from "./OfficeMap";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -205,9 +204,19 @@ export const LandingPage = () => {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
-              className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20"
+              className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 h-[400px]"
             >
-              <OfficeMap />
+              <div className="w-full h-full rounded-lg overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.958170648906!2d78.81172931534882!3d10.760160092330472!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baaf5cef3f2f8b9%3A0x1c0a8e5b5e0f5b5a!2sSRM%20Institute%20of%20Science%20and%20Technology%2C%20Tiruchirappalli!5e0!3m2!1sen!2sin!4v1629788000000!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </motion.div>
           </div>
         </div>
