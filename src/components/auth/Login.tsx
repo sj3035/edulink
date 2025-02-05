@@ -92,7 +92,7 @@ export const Login = () => {
           alt="EduLink Logo"
           className="h-28 w-auto mx-auto animate-fade-in drop-shadow-lg filter brightness-110 contrast-125"
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
         />
       </div>
       <motion.div
@@ -159,3 +159,4 @@ export const Login = () => {
     </div>
   );
 };
+
