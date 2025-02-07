@@ -1,6 +1,7 @@
+
 import { Outlet } from "react-router-dom";
 import { ProfileMenu } from "./ProfileMenu";
-import { ThemeToggle } from "./ThemeToggle";
+import { NotificationsMenu } from "./NotificationsMenu";
 
 export const Dashboard = () => {
   return (
@@ -16,7 +17,7 @@ export const Dashboard = () => {
               />
             </div>
             <div className="flex items-center gap-4">
-              <ThemeToggle />
+              <NotificationsMenu />
               <ProfileMenu />
             </div>
           </div>

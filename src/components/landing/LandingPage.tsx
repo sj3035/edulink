@@ -186,15 +186,33 @@ export const LandingPage = () => {
               <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
                 <h3 className="text-2xl font-semibold text-white mb-4">Open Positions</h3>
                 <div className="space-y-4 text-white/80">
-                  <p>👨‍💻 Senior Learning Experience Designer</p>
-                  <p>🎯 Student Success Coordinator</p>
-                  <p>🤝 Community Partnership Manager</p>
+                  <Button
+                    variant="link"
+                    className="text-white hover:text-white/80"
+                    onClick={() => navigate("/apply/senior-learning-experience-designer")}
+                  >
+                    👨‍💻 Senior Learning Experience Designer
+                  </Button>
+                  <Button
+                    variant="link"
+                    className="text-white hover:text-white/80"
+                    onClick={() => navigate("/apply/student-success-coordinator")}
+                  >
+                    🎯 Student Success Coordinator
+                  </Button>
+                  <Button
+                    variant="link"
+                    className="text-white hover:text-white/80"
+                    onClick={() => navigate("/apply/community-partnership-manager")}
+                  >
+                    🤝 Community Partnership Manager
+                  </Button>
                 </div>
               </div>
               <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
                 <h3 className="text-2xl font-semibold text-white mb-4">Get in Touch</h3>
                 <div className="space-y-4 text-white/80">
-                  <p>📧 support@edulink.com</p>
+                  <p>📧 support@edulink.gmail.com</p>
                   <p>📞 +91 9843296163</p>
                   <p>📱 +91 9150947247</p>
                   <p>📲 +91 8076725006</p>

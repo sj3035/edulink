@@ -160,6 +160,48 @@ export type Database = {
         }
         Relationships: []
       }
+      job_applications: {
+        Row: {
+          admin_notes: string | null
+          cover_letter: string | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          phone: string
+          position: string
+          resume_url: string
+          status: Database["public"]["Enums"]["job_application_status"] | null
+          user_id: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          cover_letter?: string | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+          position: string
+          resume_url: string
+          status?: Database["public"]["Enums"]["job_application_status"] | null
+          user_id?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          cover_letter?: string | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          position?: string
+          resume_url?: string
+          status?: Database["public"]["Enums"]["job_application_status"] | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           content: string
@@ -245,7 +287,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      job_application_status: "pending" | "accepted" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
