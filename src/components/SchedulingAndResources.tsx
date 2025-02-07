@@ -1,5 +1,6 @@
+
 import { useState } from "react";
-import { Calendar as CalendarIcon, File, Link, MessageSquare, Clock } from "lucide-react";
+import { Calendar as CalendarIcon, File, Link, MessageSquare, Clock, Upload } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -22,6 +23,7 @@ export const SchedulingAndResources = ({
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState("");
   const [resourceUrl, setResourceUrl] = useState("");
+  const [resourceFile, setResourceFile] = useState<File | null>(null);
   const [notes, setNotes] = useState("");
   const { toast } = useToast();
 
@@ -42,9 +44,9 @@ export const SchedulingAndResources = ({
   };
 
   const handleShareResource = () => {
-    if (!resourceUrl) {
+    if (!resourceUrl && !resourceFile) {
       toast({
-        title: "Please enter a resource URL",
+        title: "Please provide either a URL or upload a file",
         variant: "destructive",
       });
       return;
@@ -55,6 +57,7 @@ export const SchedulingAndResources = ({
       description: `Resource has been shared with ${matchName}`,
     });
     setResourceUrl("");
+    setResourceFile(null);
   };
 
   return (
@@ -116,12 +119,23 @@ export const SchedulingAndResources = ({
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Link className="h-4 w-4 text-muted-foreground" />
-                  <label className="text-sm font-medium">Resource URL</label>
+                  <label className="text-sm font-medium">Resource URL (Optional)</label>
                 </div>
                 <Input
                   placeholder="Enter resource URL"
                   value={resourceUrl}
                   onChange={(e) => setResourceUrl(e.target.value)}
+                />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Upload className="h-4 w-4 text-muted-foreground" />
+                  <label className="text-sm font-medium">Upload File (Optional)</label>
+                </div>
+                <Input
+                  type="file"
+                  onChange={(e) => setResourceFile(e.target.files?.[0] || null)}
+                  className="cursor-pointer"
                 />
               </div>
               <div>
