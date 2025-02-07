@@ -44,16 +44,16 @@ export const JobApplicationForm = ({ position }: { position: string }) => {
         resume_url = uploadData.path;
       }
 
-      // Submit application
-      const { error } = await supabase.from("job_applications").insert({
+      // Submit application - Fixed: Wrap the object in an array for .insert()
+      const { error } = await supabase.from("job_applications").insert([{
         position,
-        full_name: formData.get("fullName"),
-        email: formData.get("email"),
-        phone: formData.get("phone"),
-        cover_letter: formData.get("coverLetter"),
+        full_name: formData.get("fullName") as string,
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string,
+        cover_letter: formData.get("coverLetter") as string,
         resume_url,
         user_id: user.id,
-      });
+      }]);
 
       if (error) throw error;
 
