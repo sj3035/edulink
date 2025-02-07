@@ -19,7 +19,7 @@ serve(async (req) => {
 
     const { data, error } = await resend.emails.send({
       from: "EduLink <no-reply@edulink.com>",
-      to: "support@edulink.gmail.com",
+      to: "support.edulink@gmail.com",
       subject: `New Job Application: ${position}`,
       html: `
         <h1>New Job Application Received</h1>

@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -212,7 +213,7 @@ export const LandingPage = () => {
               <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
                 <h3 className="text-2xl font-semibold text-white mb-4">Get in Touch</h3>
                 <div className="space-y-4 text-white/80">
-                  <p>📧 support@edulink.gmail.com</p>
+                  <p>📧 support.edulink@gmail.com</p>
                   <p>📞 +91 9843296163</p>
                   <p>📱 +91 9150947247</p>
                   <p>📲 +91 8076725006</p>
