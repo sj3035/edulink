@@ -1,3 +1,4 @@
+
 import { Bell } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
@@ -7,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Badge } from "./ui/badge";
+import { ScrollArea } from "./ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -16,10 +18,8 @@ export const NotificationsMenu = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Fetch initial notifications
     fetchNotifications();
 
-    // Subscribe to new notifications
     const channel = supabase
       .channel('notifications')
       .on(
@@ -50,7 +50,7 @@ export const NotificationsMenu = () => {
       .from('notifications')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(5);
+      .limit(20);
 
     if (error) {
       console.error('Error fetching notifications:', error);
@@ -92,31 +92,33 @@ export const NotificationsMenu = () => {
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80">
-        {notifications.length === 0 ? (
-          <div className="p-4 text-center text-sm text-muted-foreground">
-            No notifications
-          </div>
-        ) : (
-          notifications.map((notification) => (
-            <DropdownMenuItem
-              key={notification.id}
-              className="p-4 cursor-pointer"
-              onClick={() => markAsRead(notification.id)}
-            >
-              <div>
-                <div className="font-medium">{notification.title}</div>
-                <div className="text-sm text-muted-foreground">
-                  {notification.content}
+        <ScrollArea className="h-[300px] w-full p-4">
+          {notifications.length === 0 ? (
+            <div className="text-center text-sm text-muted-foreground">
+              No notifications
+            </div>
+          ) : (
+            notifications.map((notification) => (
+              <DropdownMenuItem
+                key={notification.id}
+                className="mb-2 p-3 cursor-pointer rounded-lg hover:bg-accent"
+                onClick={() => markAsRead(notification.id)}
+              >
+                <div className="w-full">
+                  <div className="font-medium">{notification.title}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {notification.content}
+                  </div>
+                  {!notification.read && (
+                    <Badge className="mt-2" variant="secondary">
+                      New
+                    </Badge>
+                  )}
                 </div>
-                {!notification.read && (
-                  <Badge className="mt-2" variant="secondary">
-                    New
-                  </Badge>
-                )}
-              </div>
-            </DropdownMenuItem>
-          ))
-        )}
+              </DropdownMenuItem>
+            ))
+          )}
+        </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
   );
