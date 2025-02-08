@@ -18,13 +18,19 @@ export const ProfileMenu = () => {
 
   const handleLogout = async () => {
     try {
-      const { error } = await supabase.from('notifications').insert([{
-        title: 'System Notification',
-        content: 'You have been successfully logged out',
-        read: false
-      }]);
+      const { data: { user } } = await supabase.auth.getUser();
       
-      if (error) throw error;
+      if (user) {
+        const { error } = await supabase.from('notifications').insert([{
+          title: 'System Notification',
+          content: 'You have been successfully logged out',
+          type: 'system',
+          user_id: user.id,
+          read: false
+        }]);
+        
+        if (error) throw error;
+      }
       
       await supabase.auth.signOut();
       navigate("/");

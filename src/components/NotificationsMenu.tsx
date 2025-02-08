@@ -30,6 +30,7 @@ export const NotificationsMenu = () => {
           table: 'notifications',
         },
         (payload) => {
+          console.log('New notification received:', payload.new);
           setNotifications((prev) => [payload.new, ...prev]);
           setUnreadCount((prev) => prev + 1);
           toast({
