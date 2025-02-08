@@ -12,17 +12,8 @@ import { ScrollArea } from "./ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-type Notification = {
-  id: string;
-  title: string;
-  content: string;
-  type: string;
-  read: boolean;
-  created_at: string;
-};
-
 export const NotificationsMenu = () => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const { toast } = useToast();
 
@@ -39,12 +30,11 @@ export const NotificationsMenu = () => {
           table: 'notifications',
         },
         (payload) => {
-          const newNotification = payload.new as Notification;
-          setNotifications((prev) => [newNotification, ...prev]);
+          setNotifications((prev) => [payload.new, ...prev]);
           setUnreadCount((prev) => prev + 1);
           toast({
-            title: newNotification.title,
-            description: newNotification.content,
+            title: payload.new.title,
+            description: payload.new.content,
           });
         }
       )
@@ -56,48 +46,36 @@ export const NotificationsMenu = () => {
   }, []);
 
   const fetchNotifications = async () => {
-    try {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) return;
+    const { data, error } = await supabase
+      .from('notifications')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
 
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_id', userData.user.id)
-        .order('created_at', { ascending: false })
-        .limit(20);
-
-      if (error) {
-        console.error('Error fetching notifications:', error);
-        return;
-      }
-
-      setNotifications(data || []);
-      setUnreadCount((data || []).filter((n) => !n.read).length);
-    } catch (error) {
-      console.error('Error in fetchNotifications:', error);
+    if (error) {
+      console.error('Error fetching notifications:', error);
+      return;
     }
+
+    setNotifications(data);
+    setUnreadCount(data.filter((n) => !n.read).length);
   };
 
   const markAsRead = async (id: string) => {
-    try {
-      const { error } = await supabase
-        .from('notifications')
-        .update({ read: true })
-        .eq('id', id);
+    const { error } = await supabase
+      .from('notifications')
+      .update({ read: true })
+      .eq('id', id);
 
-      if (error) {
-        console.error('Error marking notification as read:', error);
-        return;
-      }
-
-      setUnreadCount((prev) => Math.max(0, prev - 1));
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-      );
-    } catch (error) {
-      console.error('Error in markAsRead:', error);
+    if (error) {
+      console.error('Error marking notification as read:', error);
+      return;
     }
+
+    setUnreadCount((prev) => Math.max(0, prev - 1));
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
   };
 
   return (
