@@ -268,6 +268,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_auth_methods: {
+        Row: {
+          created_at: string
+          id: string
+          provider: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          provider: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          provider?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

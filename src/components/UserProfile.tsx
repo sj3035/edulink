@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +29,32 @@ export const UserProfile = () => {
           return;
         }
 
+        // If this is a new OAuth login, record the auth method
+        const { data: authMethod, error: authError } = await supabase
+          .from('user_auth_methods')
+          .select('*')
+          .eq('user_id', user.id)
+          .limit(1);
+
+        if (authError) {
+          console.error('Error checking auth method:', authError);
+        } else if (!authMethod || authMethod.length === 0) {
+          // Determine provider from the user's identities
+          let provider = 'email';
+          if (user.app_metadata?.provider) {
+            provider = user.app_metadata.provider;
+          }
+
+          // Record the auth method
+          const { error: insertError } = await supabase
+            .from('user_auth_methods')
+            .insert([{ user_id: user.id, provider }]);
+
+          if (insertError) {
+            console.error('Error recording auth method:', insertError);
+          }
+        }
+
         const { data: profile, error } = await supabase
           .from('profiles')
           .select('*')
@@ -37,6 +64,9 @@ export const UserProfile = () => {
         if (error) {
           if (error.code === 'PGRST116') {
             setIsEditing(true);
+            
+            // Pre-fill email from the auth user
+            setEmail(user.email || '');
             return;
           }
           throw error;

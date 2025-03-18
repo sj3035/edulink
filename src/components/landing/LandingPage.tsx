@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -7,7 +6,7 @@ export const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#6E59A5] via-[#9b87f5] to-[#D6BCFA]">
+    <div className="min-h-screen bg-gradient-to-br from-[#9b87f5] via-[#c4b8fa] to-[#E6DDFF]">
       {/* Navigation */}
       <nav className="fixed w-full top-0 z-50">
         <div className="container mx-auto px-6 py-4">
@@ -26,7 +25,7 @@ export const LandingPage = () => {
             <div className="flex gap-4">
               <Button
                 variant="ghost"
-                className="bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+                className="bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 text-white"
                 onClick={() => navigate("/login")}
               >
                 Login
@@ -90,11 +89,11 @@ export const LandingPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300"
+                className="p-6 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all duration-300"
               >
                 <div className="text-white mb-4 text-2xl">{feature.icon}</div>
                 <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-white/80">{feature.description}</p>
+                <p className="text-white/90">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -102,7 +101,7 @@ export const LandingPage = () => {
       </section>
 
       {/* About Us Section */}
-      <section className="py-20 px-4 bg-white/5">
+      <section className="py-20 px-4 bg-white/10">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -252,8 +251,8 @@ export const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-white/10">
-        <div className="container mx-auto text-center text-white/60">
+      <footer className="py-8 px-4 border-t border-white/20">
+        <div className="container mx-auto text-center text-white/80">
           <p>© 2024 EduLink. All rights reserved.</p>
         </div>
       </footer>
