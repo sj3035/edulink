@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -26,13 +25,13 @@ export const LandingPage = () => {
             <div className="flex gap-4">
               <Button
                 variant="ghost"
-                className="bg-white/15 backdrop-blur-sm text-white hover:bg-white/25"
+                className="bg-primary/25 backdrop-blur-sm text-white hover:bg-primary/35"
                 onClick={() => navigate("/login")}
               >
                 Login
               </Button>
               <Button
-                className="bg-white/90 text-primary hover:bg-white/100"
+                className="bg-white/80 text-primary hover:bg-white/90"
                 onClick={() => navigate("/register")}
               >
                 Create Account
@@ -62,7 +61,7 @@ export const LandingPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <Button
                 size="lg"
-                className="bg-white/90 text-primary text-lg px-8 hover:bg-white/100"
+                className="bg-white/80 text-primary text-lg px-8 hover:bg-white/90"
                 onClick={() => navigate("/register")}
               >
                 Get Started
@@ -70,7 +69,7 @@ export const LandingPage = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white text-lg px-8 hover:bg-white/15"
+                className="border-white text-white text-lg px-8 hover:bg-primary/15"
                 onClick={() => navigate("/login")}
               >
                 Learn More
@@ -90,7 +89,7 @@ export const LandingPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="p-6 rounded-xl bg-white/15 backdrop-blur-md border border-white/25 hover:bg-white/20 transition-all duration-300"
+                className="p-6 rounded-xl bg-primary/20 backdrop-blur-md border border-white/20 hover:bg-primary/25 transition-all duration-300"
               >
                 <div className="text-white mb-4 text-2xl">{feature.icon}</div>
                 <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
@@ -102,7 +101,7 @@ export const LandingPage = () => {
       </section>
 
       {/* About Us Section */}
-      <section className="py-20 px-4 bg-white/5">
+      <section className="py-20 px-4 bg-primary/10">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -123,14 +122,14 @@ export const LandingPage = () => {
               transition={{ duration: 0.7 }}
               className="space-y-6"
             >
-              <div className="p-6 rounded-xl bg-white/8 backdrop-blur-md border border-white/15">
+              <div className="p-6 rounded-xl bg-primary/15 backdrop-blur-md border border-white/15">
                 <h3 className="text-2xl font-semibold text-white mb-4">Our Mission</h3>
                 <p className="text-white/80">
                   To create a collaborative learning environment where students can connect, share knowledge,
                   and achieve their academic goals together.
                 </p>
               </div>
-              <div className="p-6 rounded-xl bg-white/8 backdrop-blur-md border border-white/15">
+              <div className="p-6 rounded-xl bg-primary/15 backdrop-blur-md border border-white/15">
                 <h3 className="text-2xl font-semibold text-white mb-4">Our Vision</h3>
                 <p className="text-white/80">
                   To become the leading platform for student collaboration and peer-to-peer learning,
@@ -184,7 +183,7 @@ export const LandingPage = () => {
               transition={{ duration: 0.7 }}
               className="space-y-8"
             >
-              <div className="p-6 rounded-xl bg-white/8 backdrop-blur-md border border-white/15">
+              <div className="p-6 rounded-xl bg-primary/15 backdrop-blur-md border border-white/15">
                 <h3 className="text-2xl font-semibold text-white mb-4">Open Positions</h3>
                 <div className="space-y-4 text-white/80">
                   <Button
@@ -210,7 +209,7 @@ export const LandingPage = () => {
                   </Button>
                 </div>
               </div>
-              <div className="p-6 rounded-xl bg-white/8 backdrop-blur-md border border-white/15">
+              <div className="p-6 rounded-xl bg-primary/15 backdrop-blur-md border border-white/15">
                 <h3 className="text-2xl font-semibold text-white mb-4">Get in Touch</h3>
                 <div className="space-y-4 text-white/80">
                   <p>📧 support.edulink@gmail.com</p>
@@ -220,7 +219,7 @@ export const LandingPage = () => {
                   <p>🏢 SRM Institute of Science and Technology, Tiruchirappalli</p>
                 </div>
               </div>
-              <div className="p-6 rounded-xl bg-white/8 backdrop-blur-md border border-white/15">
+              <div className="p-6 rounded-xl bg-primary/15 backdrop-blur-md border border-white/15">
                 <h3 className="text-2xl font-semibold text-white mb-4">Office Hours</h3>
                 <div className="space-y-2 text-white/80">
                   <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
@@ -233,7 +232,7 @@ export const LandingPage = () => {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
-              className="p-6 rounded-xl bg-white/8 backdrop-blur-md border border-white/15 h-[400px]"
+              className="p-6 rounded-xl bg-primary/15 backdrop-blur-md border border-white/15 h-[400px]"
             >
               <div className="w-full h-full rounded-lg overflow-hidden">
                 <iframe
