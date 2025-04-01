@@ -1,13 +1,14 @@
 
 import { useState } from "react";
-import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { motion, AnimatePresence } from "framer-motion";
-import { CriteriaItem } from "./PasswordCriteriaItem";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Eye, EyeOff } from "lucide-react";
+import { PasswordCriteriaItem } from "./PasswordCriteriaItem";
 
 interface PasswordFieldProps {
   password: string;
-  setPassword: (value: string) => void;
+  setPassword: (password: string) => void;
   isLoading: boolean;
   label: string;
   id: string;
@@ -19,9 +20,10 @@ interface PasswordFieldProps {
     hasNumber: boolean;
     hasSpecialChar: boolean;
   };
-  confirmPassword?: string;
   showPasswordMatch?: boolean;
   passwordsMatch?: boolean;
+  confirmPassword?: string;
+  isBold?: boolean;
 }
 
 export const PasswordField = ({
@@ -30,55 +32,87 @@ export const PasswordField = ({
   isLoading,
   label,
   id,
-  showCriteria,
+  showCriteria = false,
   passwordCriteria,
-  confirmPassword,
-  showPasswordMatch,
+  showPasswordMatch = false,
   passwordsMatch,
+  confirmPassword,
+  isBold = false
 }: PasswordFieldProps) => {
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
-    <div className="space-y-2 relative">
-      <Label htmlFor={id} className="text-white">{label}</Label>
-      <Input
-        id={id}
-        type="password"
-        placeholder={`Enter your ${label.toLowerCase()}`}
-        value={password}
-        onFocus={() => setShowFeedback(true)}
-        onBlur={() => setShowFeedback(false)}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="bg-white/20 border-white/20 text-white placeholder:text-white/60"
-        disabled={isLoading}
-      />
-      <AnimatePresence>
-        {showCriteria && showFeedback && passwordCriteria && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute z-10 mt-2 p-4 bg-white/90 backdrop-blur-md rounded-lg shadow-lg space-y-2 border border-white/20"
-          >
-            <CriteriaItem met={passwordCriteria.minLength} text="8-15 characters" />
-            <CriteriaItem met={passwordCriteria.hasLowerCase} text="One lowercase letter" />
-            <CriteriaItem met={passwordCriteria.hasUpperCase} text="One uppercase letter" />
-            <CriteriaItem met={passwordCriteria.hasNumber} text="One number" />
-            <CriteriaItem met={passwordCriteria.hasSpecialChar} text="One special character" />
-          </motion.div>
-        )}
-        {showPasswordMatch && showFeedback && confirmPassword && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute z-10 mt-2 p-4 bg-white/90 backdrop-blur-md rounded-lg shadow-lg"
-          >
-            <CriteriaItem met={passwordsMatch!} text="Passwords match" />
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <Label htmlFor={id} className="text-white">
+          {label}
+        </Label>
+      </div>
+      <div className="relative">
+        <Input
+          id={id}
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder={`Enter your ${label.toLowerCase()}`}
+          className={`bg-white/20 border-white/20 text-white pr-10 ${isBold ? 'font-bold' : ''} placeholder:text-white/60`}
+          disabled={isLoading}
+          required
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="absolute right-0 top-0 h-10 w-10 text-white hover:bg-transparent hover:text-white/80"
+          onClick={togglePasswordVisibility}
+          disabled={isLoading}
+        >
+          {showPassword ? (
+            <EyeOff className="h-4 w-4" />
+          ) : (
+            <Eye className="h-4 w-4" />
+          )}
+          <span className="sr-only">
+            {showPassword ? "Hide password" : "Show password"}
+          </span>
+        </Button>
+      </div>
+
+      {showCriteria && passwordCriteria && (
+        <div className="space-y-1">
+          <PasswordCriteriaItem
+            isValid={passwordCriteria.minLength}
+            text="8-15 characters"
+          />
+          <PasswordCriteriaItem
+            isValid={passwordCriteria.hasLowerCase}
+            text="One lowercase letter"
+          />
+          <PasswordCriteriaItem
+            isValid={passwordCriteria.hasUpperCase}
+            text="One uppercase letter"
+          />
+          <PasswordCriteriaItem
+            isValid={passwordCriteria.hasNumber}
+            text="One number"
+          />
+          <PasswordCriteriaItem
+            isValid={passwordCriteria.hasSpecialChar}
+            text="One special character"
+          />
+        </div>
+      )}
+
+      {showPasswordMatch && confirmPassword && confirmPassword.length > 0 && (
+        <PasswordCriteriaItem
+          isValid={passwordsMatch ?? false}
+          text="Passwords match"
+        />
+      )}
     </div>
   );
 };

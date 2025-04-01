@@ -35,6 +35,17 @@ serve(async (req) => {
       );
     }
 
+    // For now, we only handle email provider
+    if (provider !== 'email') {
+      return new Response(
+        JSON.stringify({ message: "Only email provider is currently supported" }),
+        { 
+          status: 200, 
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
+
     // Check if auth method already exists to avoid duplicates
     const { data: existingMethods, error: checkError } = await supabase
       .from('user_auth_methods')
