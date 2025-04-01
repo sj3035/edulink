@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,7 +7,7 @@ export const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#9b87f5] via-[#c4b8fa] to-[#E6DDFF]">
+    <div className="min-h-screen bg-gradient-to-br from-[#b09dfa] via-[#d1c8fc] to-[#EFE9FF]">
       {/* Navigation */}
       <nav className="fixed w-full top-0 z-50">
         <div className="container mx-auto px-6 py-4">
@@ -25,13 +26,13 @@ export const LandingPage = () => {
             <div className="flex gap-4">
               <Button
                 variant="ghost"
-                className="bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 text-white"
+                className="bg-white/20 backdrop-blur-sm text-white"
                 onClick={() => navigate("/login")}
               >
                 Login
               </Button>
               <Button
-                className="bg-white text-primary hover:bg-white/90"
+                className="bg-white text-primary"
                 onClick={() => navigate("/register")}
               >
                 Create Account
@@ -61,7 +62,7 @@ export const LandingPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <Button
                 size="lg"
-                className="bg-white text-primary hover:bg-white/90 text-lg px-8"
+                className="bg-white text-primary text-lg px-8"
                 onClick={() => navigate("/register")}
               >
                 Get Started
@@ -69,7 +70,7 @@ export const LandingPage = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white/10 hover:text-white text-lg px-8"
+                className="border-white text-white text-lg px-8"
                 onClick={() => navigate("/login")}
               >
                 Learn More
@@ -89,7 +90,7 @@ export const LandingPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="p-6 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all duration-300"
+                className="p-6 rounded-xl bg-white/20 backdrop-blur-md border border-white/30"
               >
                 <div className="text-white mb-4 text-2xl">{feature.icon}</div>
                 <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
