@@ -2,22 +2,22 @@
 import { Check, X } from "lucide-react";
 import { motion } from "framer-motion";
 
-interface CriteriaItemProps {
-  met: boolean;
+interface PasswordCriteriaItemProps {
+  isValid: boolean;
   text: string;
 }
 
-export const CriteriaItem = ({ met, text }: CriteriaItemProps) => (
+export const PasswordCriteriaItem = ({ isValid, text }: PasswordCriteriaItemProps) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
     className="flex items-center gap-2 text-sm"
   >
-    {met ? (
+    {isValid ? (
       <Check className="h-4 w-4 text-green-500" />
     ) : (
       <X className="h-4 w-4 text-red-500" />
     )}
-    <span className={met ? "text-green-500" : "text-red-500"}>{text}</span>
+    <span className={isValid ? "text-green-500" : "text-red-500"}>{text}</span>
   </motion.div>
 );
