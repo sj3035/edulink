@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -18,6 +18,70 @@ export const Login = () => {
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Check for auth state changes, including OAuth redirects
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session?.user) {
+        try {
+          // Record the auth method used
+          const provider = session.user.app_metadata.provider || 'email';
+          
+          // Try to record the auth method
+          await supabase.functions.invoke('handle-oauth-login', {
+            body: { userId: session.user.id, provider }
+          });
+          
+          toast({
+            title: "Welcome back!",
+            description: "Successfully logged in.",
+          });
+          
+          navigate("/dashboard/matching");
+        } catch (error) {
+          console.error('Error recording auth method:', error);
+          // Still navigate to dashboard even if recording auth method fails
+          navigate("/dashboard/matching");
+        }
+      }
+    };
+
+    // Set up auth state change listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          try {
+            // Record the auth method used
+            const provider = session.user.app_metadata.provider || 'email';
+            
+            // Try to record the auth method
+            await supabase.functions.invoke('handle-oauth-login', {
+              body: { userId: session.user.id, provider }
+            });
+            
+            toast({
+              title: "Welcome back!",
+              description: "Successfully logged in.",
+            });
+            
+            navigate("/dashboard/matching");
+          } catch (error) {
+            console.error('Error recording auth method:', error);
+            // Still navigate to dashboard even if recording auth method fails
+            navigate("/dashboard/matching");
+          }
+        }
+      }
+    );
+
+    checkSession();
+    
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate, toast]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,20 +124,8 @@ export const Login = () => {
       }
 
       if (data.user) {
-        // Add entry to user_auth_methods table
-        const { error: methodError } = await supabase.from('user_auth_methods').insert([
-          { user_id: data.user.id, provider: 'email' }
-        ]);
-        
-        if (methodError) {
-          console.error('Error recording auth method:', methodError);
-        }
-        
-        toast({
-          title: "Welcome back!",
-          description: "Successfully logged in.",
-        });
-        navigate("/dashboard/matching");
+        // Record auth method is handled by the auth state change listener
+        // No need to do anything here
       }
     } catch (error) {
       console.error('Unexpected error:', error);
@@ -95,6 +147,10 @@ export const Login = () => {
         provider,
         options: {
           redirectTo: `${window.location.origin}/dashboard/matching`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
         }
       });
       
