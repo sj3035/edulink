@@ -79,6 +79,6 @@
   
   .magic-button {
     @apply relative overflow-hidden bg-gradient-to-r from-primary to-accent text-white shadow-lg
-           hover:shadow-xl transition-all duration-300 hover:scale-105 animate-button-glow;
+           hover:shadow-xl transition-all duration-300 hover:scale-105;
   }
 }
