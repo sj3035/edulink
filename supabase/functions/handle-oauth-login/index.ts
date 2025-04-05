@@ -22,9 +22,9 @@ serve(async (req) => {
     // Get the user data from the request
     const { userId, provider } = await req.json();
 
-    if (!userId || !provider) {
+    if (!userId || provider !== 'email') {
       return new Response(
-        JSON.stringify({ error: "User ID and provider are required" }),
+        JSON.stringify({ error: "User ID is required and only email provider is supported" }),
         { 
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" }
@@ -35,7 +35,7 @@ serve(async (req) => {
     // Insert the authentication method record
     const { data, error } = await supabase
       .from('user_auth_methods')
-      .insert([{ user_id: userId, provider }]);
+      .insert([{ user_id: userId, provider: 'email' }]);
 
     if (error) {
       console.error("Error recording auth method:", error);

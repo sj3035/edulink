@@ -11,7 +11,7 @@ export const CriteriaItem = ({ met, text }: CriteriaItemProps) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
-    className="flex items-center gap-2 text-sm"
+    className="flex items-center gap-2 text-sm font-bold"
   >
     {met ? (
       <Check className="h-4 w-4 text-green-500" />
