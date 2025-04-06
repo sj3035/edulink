@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "./components/ui/tooltip";
@@ -8,7 +9,7 @@ import { UserProfile } from "./components/UserProfile";
 import { Login } from "./components/auth/Login";
 import { Register } from "./components/auth/Register";
 import { Dashboard } from "./components/Dashboard";
-import { Toaster } from "./components/ui/toaster";
+import { Toaster } from "./components/ui/sonner"; // Changed to use Sonner
 import { LandingPage } from "./components/landing/LandingPage";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { JobApplicationForm } from "./components/landing/JobApplicationForm";

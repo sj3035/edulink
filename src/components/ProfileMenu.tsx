@@ -24,7 +24,7 @@ export const ProfileMenu = () => {
         const { error } = await supabase.from('notifications').insert([{
           title: 'System Notification',
           content: 'You have been successfully logged out',
-          type: 'system',
+          type: 'system', // Non-important notification
           user_id: user.id,
           read: false
         }]);
@@ -33,6 +33,13 @@ export const ProfileMenu = () => {
       }
       
       await supabase.auth.signOut();
+      
+      // Show toast for logout
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out",
+      });
+      
       navigate("/");
     } catch (error) {
       console.error('Logout error:', error);
