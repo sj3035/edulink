@@ -13,6 +13,21 @@ import {
   CheckCircle2, Loader2, GraduationCap 
 } from "lucide-react";
 
+type ProfileType = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  email: string;
+  full_name: string | null;
+  bio: string | null;
+  subjects: string | null;
+  study_time: string | null;
+  learning_style: string | null;
+  university: string | null;
+  major: string | null;
+  avatar_url: string | null;
+};
+
 export const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [learningStyle, setLearningStyle] = useState("visual");
@@ -37,7 +52,6 @@ export const UserProfile = () => {
           return;
         }
 
-        // If this is a new OAuth login, record the auth method
         const { data: authMethod, error: authError } = await supabase
           .from('user_auth_methods')
           .select('*')
@@ -47,13 +61,11 @@ export const UserProfile = () => {
         if (authError) {
           console.error('Error checking auth method:', authError);
         } else if (!authMethod || authMethod.length === 0) {
-          // Determine provider from the user's identities
           let provider = 'email';
           if (user.app_metadata?.provider) {
             provider = user.app_metadata.provider;
           }
 
-          // Record the auth method
           const { error: insertError } = await supabase
             .from('user_auth_methods')
             .insert([{ user_id: user.id, provider }]);
@@ -73,7 +85,6 @@ export const UserProfile = () => {
           if (error.code === 'PGRST116') {
             setIsEditing(true);
             
-            // Pre-fill email from the auth user
             setEmail(user.email || '');
             return;
           }
@@ -81,16 +92,17 @@ export const UserProfile = () => {
         }
 
         if (profile) {
-          setName(profile.full_name || '');
-          setBio(profile.bio || '');
-          setSubjects(profile.subjects || '');
-          setStudyTime(profile.study_time || '');
-          setLearningStyle(profile.learning_style || 'visual');
-          setEmail(profile.email || '');
-          // Handle fields that were just added to the database
-          setUniversity(profile.university || '');
-          setMajor(profile.major || '');
-          setAvatarUrl(profile.avatar_url || '');
+          const profileData = profile as ProfileType;
+          
+          setName(profileData.full_name || '');
+          setBio(profileData.bio || '');
+          setSubjects(profileData.subjects || '');
+          setStudyTime(profileData.study_time || '');
+          setLearningStyle(profileData.learning_style || 'visual');
+          setEmail(profileData.email || '');
+          setUniversity(profileData.university || '');
+          setMajor(profileData.major || '');
+          setAvatarUrl(profileData.avatar_url || '');
           setIsEditing(false);
         }
       } catch (error) {
