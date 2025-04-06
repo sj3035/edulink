@@ -70,7 +70,7 @@
   }
   
   .glass-card {
-    @apply backdrop-blur-md bg-white/20 border border-white/30 shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/30 dark:border-gray-700/30 shadow-lg hover:shadow-xl transition-all duration-300;
   }
   
   .glass-button {

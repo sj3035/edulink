@@ -1,5 +1,7 @@
-import { Pencil } from "lucide-react";
+
+import { Pencil, Save } from "lucide-react";
 import { Button } from "../ui/button";
+import { motion } from "framer-motion";
 
 interface ProfileHeaderProps {
   isEditing: boolean;
@@ -8,17 +10,22 @@ interface ProfileHeaderProps {
 
 export const ProfileHeader = ({ isEditing, onEditClick }: ProfileHeaderProps) => {
   return (
-    <div className="flex justify-between items-center">
-      <h2 className="text-3xl font-bold text-primary-dark">Your Profile</h2>
+    <div className="flex">
       {!isEditing && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onEditClick}
-          className="hover:bg-primary/10"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
         >
-          <Pencil className="h-5 w-5 text-primary" />
-        </Button>
+          <Button
+            variant="outline"
+            onClick={onEditClick}
+            className="flex items-center gap-2 hover:bg-primary/10 hover:text-primary hover:scale-105 transition-all duration-300"
+          >
+            <Pencil className="h-4 w-4" />
+            <span>Edit Profile</span>
+          </Button>
+        </motion.div>
       )}
     </div>
   );

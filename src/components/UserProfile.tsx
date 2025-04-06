@@ -7,6 +7,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { ProfileHeader } from "./profile/ProfileHeader";
 import { ProfileForm } from "./profile/ProfileForm";
 import { ProfileView } from "./profile/ProfileView";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { 
+  User, Book, Clock, Brain, 
+  CheckCircle2, Loader2, GraduationCap 
+} from "lucide-react";
 
 export const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -17,6 +23,9 @@ export const UserProfile = () => {
   const [studyTime, setStudyTime] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
+  const [university, setUniversity] = useState("");
+  const [major, setMajor] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -79,6 +88,9 @@ export const UserProfile = () => {
           setStudyTime(profile.study_time || '');
           setLearningStyle(profile.learning_style || 'visual');
           setEmail(profile.email || '');
+          setUniversity(profile.university || '');
+          setMajor(profile.major || '');
+          setAvatarUrl(profile.avatar_url || '');
           setIsEditing(false);
         }
       } catch (error) {
@@ -114,6 +126,9 @@ export const UserProfile = () => {
           subjects,
           study_time: studyTime,
           learning_style: learningStyle,
+          university,
+          major,
+          avatar_url: avatarUrl,
         });
 
       if (error) throw error;
@@ -139,45 +154,182 @@ export const UserProfile = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-secondary">
+    <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white to-secondary/30 dark:from-gray-900 dark:to-gray-800 min-h-screen">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="max-w-3xl mx-auto space-y-8"
+        className="max-w-4xl mx-auto space-y-8"
       >
-        <ProfileHeader isEditing={isEditing} onEditClick={() => setIsEditing(true)} />
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between pb-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center space-x-4 mb-4 md:mb-0">
+            <Avatar className="h-20 w-20 border-4 border-white dark:border-gray-800 shadow-lg">
+              {avatarUrl ? (
+                <AvatarImage src={avatarUrl} alt={name} />
+              ) : (
+                <AvatarFallback className="bg-primary text-white text-2xl">
+                  {name ? name.charAt(0).toUpperCase() : 'U'}
+                </AvatarFallback>
+              )}
+            </Avatar>
+            <div>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-white">{name || "Welcome!"}</h1>
+              <p className="text-muted-foreground">{email}</p>
+              {(university || major) && (
+                <div className="flex items-center mt-1 text-sm text-muted-foreground">
+                  <GraduationCap className="h-4 w-4 mr-1" />
+                  {university && <span>{university}</span>}
+                  {university && major && <span className="mx-1">•</span>}
+                  {major && <span>{major}</span>}
+                </div>
+              )}
+            </div>
+          </div>
+          <ProfileHeader isEditing={isEditing} onEditClick={() => setIsEditing(true)} />
+        </div>
 
         {isEditing ? (
-          <ProfileForm
-            isLoading={isLoading}
-            name={name}
-            setName={setName}
-            bio={bio}
-            setBio={setBio}
-            subjects={subjects}
-            setSubjects={setSubjects}
-            studyTime={studyTime}
-            setStudyTime={setStudyTime}
-            learningStyle={learningStyle}
-            setLearningStyle={setLearningStyle}
-            onCancel={() => setIsEditing(false)}
-            onSubmit={handleSubmit}
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ProfileForm
+              isLoading={isLoading}
+              name={name}
+              setName={setName}
+              bio={bio}
+              setBio={setBio}
+              subjects={subjects}
+              setSubjects={setSubjects}
+              studyTime={studyTime}
+              setStudyTime={setStudyTime}
+              learningStyle={learningStyle}
+              setLearningStyle={setLearningStyle}
+              university={university}
+              setUniversity={setUniversity}
+              major={major}
+              setMajor={setMajor}
+              avatarUrl={avatarUrl}
+              setAvatarUrl={setAvatarUrl}
+              onCancel={() => setIsEditing(false)}
+              onSubmit={handleSubmit}
+            />
+          </motion.div>
         ) : (
-          <ProfileView
-            name={name}
-            bio={bio}
-            subjects={subjects}
-            studyTime={studyTime}
-            learningStyle={learningStyle}
-          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Tabs defaultValue="profile" className="w-full">
+              <TabsList className="w-full mb-6 bg-white/20 backdrop-blur-sm dark:bg-gray-800/30">
+                <TabsTrigger value="profile" className="flex items-center gap-2 flex-1">
+                  <User className="h-4 w-4" />
+                  <span>Profile</span>
+                </TabsTrigger>
+                <TabsTrigger value="study" className="flex items-center gap-2 flex-1">
+                  <Book className="h-4 w-4" />
+                  <span>Study Preferences</span>
+                </TabsTrigger>
+                <TabsTrigger value="schedule" className="flex items-center gap-2 flex-1">
+                  <Clock className="h-4 w-4" />
+                  <span>Schedule</span>
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="profile" className="mt-0">
+                <ProfileView
+                  name={name}
+                  bio={bio}
+                  subjects={subjects}
+                  studyTime={studyTime}
+                  learningStyle={learningStyle}
+                  university={university}
+                  major={major}
+                  email={email}
+                />
+              </TabsContent>
+              
+              <TabsContent value="study" className="mt-0">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="glass-card p-6 rounded-lg">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Book className="h-5 w-5 text-primary" />
+                        <h3 className="text-lg font-semibold">Subjects</h3>
+                      </div>
+                      {subjects ? (
+                        <div className="flex flex-wrap gap-2">
+                          {subjects.split(',').map((subject, index) => (
+                            <span key={index} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
+                              {subject.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-muted-foreground">No subjects added yet</p>
+                      )}
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                  >
+                    <div className="glass-card p-6 rounded-lg">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Brain className="h-5 w-5 text-primary" />
+                        <h3 className="text-lg font-semibold">Learning Style</h3>
+                      </div>
+                      <div className="p-3 bg-primary/5 rounded-lg inline-block">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-primary" />
+                          <span className="text-primary-dark font-medium capitalize">{learningStyle} Learner</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="schedule" className="mt-0">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="glass-card p-6 rounded-lg">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Clock className="h-5 w-5 text-primary" />
+                      <h3 className="text-lg font-semibold">Availability</h3>
+                    </div>
+                    {studyTime ? (
+                      <div className="p-3 bg-primary/5 rounded-lg">
+                        <p className="text-primary-dark">
+                          Preferred study time: <span className="font-medium">{studyTime}</span>
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-muted-foreground">No study times set yet</p>
+                    )}
+                  </div>
+                </motion.div>
+              </TabsContent>
+            </Tabs>
+          </motion.div>
         )}
       </motion.div>
     </section>
