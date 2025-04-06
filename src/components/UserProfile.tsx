@@ -87,7 +87,7 @@ export const UserProfile = () => {
           setStudyTime(profile.study_time || '');
           setLearningStyle(profile.learning_style || 'visual');
           setEmail(profile.email || '');
-          // Handle fields that may not exist in the database yet
+          // Handle fields that were just added to the database
           setUniversity(profile.university || '');
           setMajor(profile.major || '');
           setAvatarUrl(profile.avatar_url || '');
@@ -191,7 +191,11 @@ export const UserProfile = () => {
               )}
             </div>
           </div>
-          <ProfileHeader isEditing={isEditing} onEditClick={() => setIsEditing(true)} />
+          <ProfileHeader 
+            isEditing={isEditing} 
+            onEditClick={() => setIsEditing(true)} 
+            onSaveClick={isEditing ? handleSubmit : undefined}
+          />
         </div>
 
         {isEditing ? (
