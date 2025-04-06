@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -88,6 +87,7 @@ export const UserProfile = () => {
           setStudyTime(profile.study_time || '');
           setLearningStyle(profile.learning_style || 'visual');
           setEmail(profile.email || '');
+          // Handle fields that may not exist in the database yet
           setUniversity(profile.university || '');
           setMajor(profile.major || '');
           setAvatarUrl(profile.avatar_url || '');
