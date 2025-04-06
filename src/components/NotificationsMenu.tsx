@@ -9,7 +9,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Badge } from "./ui/badge";
 import { ScrollArea } from "./ui/scroll-area";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 // Define types for notification importance
@@ -28,7 +28,6 @@ interface Notification {
 export const NotificationsMenu = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [importantCount, setImportantCount] = useState(0);
-  const { toast } = useToast();
 
   useEffect(() => {
     fetchNotifications();
@@ -54,11 +53,13 @@ export const NotificationsMenu = () => {
             setImportantCount((prev) => prev + 1);
           }
           
-          // Show a toast notification regardless of type
-          toast({
-            title: newNotification.title,
-            description: newNotification.content,
-          });
+          // Show a toast notification for system notifications
+          if (newNotification.type === 'system') {
+            toast({
+              title: newNotification.title,
+              description: newNotification.content,
+            });
+          }
         }
       )
       .subscribe();

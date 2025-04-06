@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
 import { ArrowLeft, Mail } from "lucide-react";
@@ -25,9 +25,9 @@ export const Login = () => {
       // Validate input
       if (!email || !password) {
         toast({
-          variant: "destructive",
           title: "Missing Information",
           description: "Please enter both email and password.",
+          style: { backgroundColor: 'hsl(var(--destructive))', color: 'hsl(var(--destructive-foreground))' }
         });
         setIsLoading(false);
         return;
@@ -43,17 +43,18 @@ export const Login = () => {
         
         if (error.message.includes("Invalid login credentials")) {
           toast({
-            variant: "destructive",
             title: "Login Failed",
             description: "Please check your email and password, or sign up if you don't have an account.",
+            style: { backgroundColor: 'hsl(var(--destructive))', color: 'hsl(var(--destructive-foreground))' }
           });
         } else {
           toast({
-            variant: "destructive",
             title: "Login Error",
             description: error.message,
+            style: { backgroundColor: 'hsl(var(--destructive))', color: 'hsl(var(--destructive-foreground))' }
           });
         }
+        setIsLoading(false);
         return;
       }
 
@@ -69,16 +70,16 @@ export const Login = () => {
         
         toast({
           title: "Welcome back!",
-          description: "Successfully logged in.",
+          description: "Successfully logged in."
         });
         navigate("/dashboard/matching");
       }
     } catch (error) {
       console.error('Unexpected error:', error);
       toast({
-        variant: "destructive",
         title: "An error occurred",
         description: "Please try again later.",
+        style: { backgroundColor: 'hsl(var(--destructive))', color: 'hsl(var(--destructive-foreground))' }
       });
     } finally {
       setIsLoading(false);

@@ -34,19 +34,20 @@ export const ProfileMenu = () => {
       
       await supabase.auth.signOut();
       
-      // Show toast for logout
+      // Show toast for logout using Sonner
       toast({
         title: "Logged out",
-        description: "You have been successfully logged out",
+        description: "You have been successfully logged out"
       });
       
       navigate("/");
     } catch (error) {
       console.error('Logout error:', error);
       toast({
-        variant: "destructive",
         title: "Error",
         description: "Failed to log out. Please try again.",
+        // For errors, we can use the variant property of Sonner
+        style: { backgroundColor: 'hsl(var(--destructive))', color: 'hsl(var(--destructive-foreground))' }
       });
     }
   };
