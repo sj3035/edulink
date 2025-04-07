@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Badge } from "./ui/badge";
 import { Calendar } from "./ui/calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
@@ -74,7 +74,8 @@ export const SchedulingAndResources = ({
     toast({
       title: "Meeting Scheduled! 🎉",
       description: `Your study session with ${matchName} is set for ${date.toLocaleDateString()} at ${selectedTime}`,
-      className: "bg-gradient-to-br from-primary/10 to-secondary/10 backdrop-blur-md border border-primary/20",
+      // We need to pass className as a style prop instead since our ToastProps doesn't properly handle classNames
+      style: { background: 'linear-gradient(to bottom right, rgba(var(--primary), 0.1), rgba(var(--secondary), 0.1))', backdropFilter: 'blur(8px)', borderColor: 'rgba(var(--primary), 0.2)', borderWidth: '1px' }
     });
     
     // Show confetti animation
@@ -107,7 +108,8 @@ export const SchedulingAndResources = ({
     toast({
       title: "Resource Shared! 📚",
       description: `Your resource has been shared with ${matchName}`,
-      className: "bg-gradient-to-br from-primary/10 to-secondary/10 backdrop-blur-md border border-primary/20",
+      // We need to pass className as a style prop instead since our ToastProps doesn't properly handle classNames
+      style: { background: 'linear-gradient(to bottom right, rgba(var(--primary), 0.1), rgba(var(--secondary), 0.1))', backdropFilter: 'blur(8px)', borderColor: 'rgba(var(--primary), 0.2)', borderWidth: '1px' }
     });
     
     // Show confetti animation

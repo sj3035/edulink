@@ -9,7 +9,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Badge } from "./ui/badge";
 import { ScrollArea } from "./ui/scroll-area";
-import { toast } from "sonner";
+import { toast } from "@/hooks/use-toast"; // Changed to use our custom toast
 import { supabase } from "@/integrations/supabase/client";
 
 // Define types for notification importance
