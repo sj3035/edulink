@@ -12,11 +12,13 @@ interface ProfileHeaderProps {
 export const ProfileHeader = ({ isEditing, onEditClick, onSaveClick }: ProfileHeaderProps) => {
   const handleEditClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     onEditClick();
   };
 
   const handleSaveClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     if (onSaveClick) {
       onSaveClick();
     }

@@ -47,9 +47,14 @@ export const ProfileForm = ({
   onCancel,
   onSubmit,
 }: ProfileFormProps) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(e);
+  };
+
   return (
     <Card className="overflow-hidden">
-      <form onSubmit={onSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="p-6 pb-0">
           <motion.h2 
             initial={{ opacity: 0, y: -10 }}

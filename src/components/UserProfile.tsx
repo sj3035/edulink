@@ -125,6 +125,10 @@ export const UserProfile = () => {
     setIsEditing(true);
   };
 
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
   const handleSubmit = async (event?: React.FormEvent) => {
     if (event) {
       event.preventDefault();
@@ -171,7 +175,7 @@ export const UserProfile = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading && !isEditing) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -243,7 +247,7 @@ export const UserProfile = () => {
               setMajor={setMajor}
               avatarUrl={avatarUrl}
               setAvatarUrl={setAvatarUrl}
-              onCancel={() => setIsEditing(false)}
+              onCancel={handleCancel}
               onSubmit={handleSubmit}
             />
           </motion.div>
