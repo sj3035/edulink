@@ -120,8 +120,11 @@ export const UserProfile = () => {
     fetchProfile();
   }, [navigate, toast]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (event?: React.FormEvent) => {
+    if (event) {
+      event.preventDefault();
+    }
+    
     setIsLoading(true);
 
     try {
@@ -206,7 +209,7 @@ export const UserProfile = () => {
           <ProfileHeader 
             isEditing={isEditing} 
             onEditClick={() => setIsEditing(true)} 
-            onSaveClick={isEditing ? handleSubmit : undefined}
+            onSaveClick={handleSubmit}
           />
         </div>
 

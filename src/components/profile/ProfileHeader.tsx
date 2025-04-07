@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 interface ProfileHeaderProps {
   isEditing: boolean;
   onEditClick: () => void;
-  onSaveClick?: (e?: React.FormEvent) => void; // Updated to accept an optional event parameter
+  onSaveClick?: (e?: React.FormEvent) => void;
 }
 
 export const ProfileHeader = ({ isEditing, onEditClick, onSaveClick }: ProfileHeaderProps) => {
@@ -35,8 +35,9 @@ export const ProfileHeader = ({ isEditing, onEditClick, onSaveClick }: ProfileHe
           transition={{ duration: 0.3 }}
         >
           <Button
+            type="button"
             variant="outline"
-            onClick={() => onSaveClick()} // Call without event - wrapped in an arrow function
+            onClick={(e) => onSaveClick(e)}
             className="flex items-center gap-2 hover:bg-primary/10 hover:text-primary hover:scale-105 transition-all duration-300"
           >
             <Save className="h-4 w-4" />
