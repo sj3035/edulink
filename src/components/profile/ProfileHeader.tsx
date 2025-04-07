@@ -10,6 +10,18 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader = ({ isEditing, onEditClick, onSaveClick }: ProfileHeaderProps) => {
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onEditClick();
+  };
+
+  const handleSaveClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onSaveClick) {
+      onSaveClick();
+    }
+  };
+
   return (
     <div className="flex">
       {!isEditing && (
@@ -20,7 +32,7 @@ export const ProfileHeader = ({ isEditing, onEditClick, onSaveClick }: ProfileHe
         >
           <Button
             variant="outline"
-            onClick={onEditClick}
+            onClick={handleEditClick}
             className="flex items-center gap-2 hover:bg-primary/10 hover:text-primary hover:scale-105 transition-all duration-300"
           >
             <Pencil className="h-4 w-4" />
@@ -37,7 +49,7 @@ export const ProfileHeader = ({ isEditing, onEditClick, onSaveClick }: ProfileHe
           <Button
             type="button"
             variant="outline"
-            onClick={(e) => onSaveClick(e)}
+            onClick={handleSaveClick}
             className="flex items-center gap-2 hover:bg-primary/10 hover:text-primary hover:scale-105 transition-all duration-300"
           >
             <Save className="h-4 w-4" />

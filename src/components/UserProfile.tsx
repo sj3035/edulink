@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -120,6 +121,10 @@ export const UserProfile = () => {
     fetchProfile();
   }, [navigate, toast]);
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
   const handleSubmit = async (event?: React.FormEvent) => {
     if (event) {
       event.preventDefault();
@@ -208,7 +213,7 @@ export const UserProfile = () => {
           </div>
           <ProfileHeader 
             isEditing={isEditing} 
-            onEditClick={() => setIsEditing(true)} 
+            onEditClick={handleEditClick}
             onSaveClick={handleSubmit}
           />
         </div>
