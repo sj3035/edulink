@@ -28,12 +28,13 @@ export default {
         primary: {
           DEFAULT: "#9b87f5",
           light: "#D6BCFA",
-          dark: "#1A1F2C",
+          dark: "#6a53e0",
           foreground: "#FFFFFF",
         },
         secondary: {
           DEFAULT: "#E5DEFF",
           foreground: "#7E69AB",
+          dark: "#1e1a35",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -42,10 +43,12 @@ export default {
         muted: {
           DEFAULT: "#F2FCE2",
           foreground: "#403E43",
+          dark: "#1a1922",
         },
         accent: {
           DEFAULT: "#7E69AB",
           foreground: "#FFFFFF",
+          dark: "#3a2e6a",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -96,6 +99,22 @@ export default {
             boxShadow: "0 0 30px rgba(155, 135, 245, 0.8)",
           },
         },
+        "pulse-soft": {
+          "0%, 100%": {
+            opacity: "1",
+          },
+          "50%": {
+            opacity: "0.8",
+          },
+        },
+        "shimmer": {
+          "0%": {
+            backgroundPosition: "-500px 0",
+          },
+          "100%": {
+            backgroundPosition: "500px 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -103,6 +122,8 @@ export default {
         "fade-up": "fade-up 0.5s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
         "button-glow": "button-glow 2s ease-in-out infinite",
+        "pulse-soft": "pulse-soft 2s ease-in-out infinite",
+        "shimmer": "shimmer 2s infinite linear",
       },
     },
   },

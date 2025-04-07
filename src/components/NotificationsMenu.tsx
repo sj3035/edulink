@@ -11,6 +11,8 @@ import { Badge } from "./ui/badge";
 import { ScrollArea } from "./ui/scroll-area";
 import { toast } from "@/hooks/use-toast"; // Changed to use our custom toast
 import { supabase } from "@/integrations/supabase/client";
+import { useTheme } from "./ThemeProvider";
+import { motion } from "framer-motion";
 
 // Define types for notification importance
 type NotificationType = 'important' | 'system';
@@ -28,6 +30,8 @@ interface Notification {
 export const NotificationsMenu = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [importantCount, setImportantCount] = useState(0);
+  const { theme } = useTheme();
+  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   useEffect(() => {
     fetchNotifications();
@@ -121,36 +125,71 @@ export const NotificationsMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="relative">
-        <Bell className="h-5 w-5" />
-        {importantCount > 0 && (
-          <Badge
-            className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center bg-primary text-white"
-            variant="default"
-          >
-            {importantCount}
-          </Badge>
-        )}
+        <motion.div 
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className={`p-2 rounded-full ${
+            isDark 
+              ? "bg-slate-800/60 hover:bg-slate-700/60" 
+              : "bg-secondary/40 hover:bg-secondary/60"
+          } backdrop-blur-sm transition-colors duration-200`}
+        >
+          <Bell className={`h-5 w-5 ${
+            importantCount > 0 
+              ? (isDark ? "text-primary-light" : "text-primary")
+              : "text-muted-foreground"
+          }`} />
+          {importantCount > 0 && (
+            <Badge
+              className={`absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center ${
+                isDark 
+                  ? "bg-primary-dark text-white animate-pulse-soft" 
+                  : "bg-primary text-white animate-pulse-soft"
+              }`}
+              variant="default"
+            >
+              {importantCount}
+            </Badge>
+          )}
+        </motion.div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80">
+      <DropdownMenuContent 
+        align="end" 
+        className={`w-80 ${
+          isDark 
+            ? "bg-slate-900/95 border border-slate-800 backdrop-blur-xl" 
+            : "bg-white/95 backdrop-blur-xl"
+        }`}
+      >
         <ScrollArea className="h-[300px] w-full p-4">
           {importantNotifications.length === 0 ? (
-            <div className="text-center text-sm text-muted-foreground">
-              No important notifications
+            <div className="text-center text-sm text-muted-foreground p-6">
+              <Bell className="h-10 w-10 mx-auto mb-2 opacity-20" />
+              <p>No important notifications</p>
             </div>
           ) : (
             importantNotifications.map((notification) => (
               <DropdownMenuItem
                 key={notification.id}
-                className="mb-2 p-3 cursor-pointer rounded-lg hover:bg-accent"
+                className={`mb-2 p-3 cursor-pointer rounded-lg ${
+                  isDark 
+                    ? "hover:bg-slate-800" 
+                    : "hover:bg-accent"
+                } ${!notification.read && (isDark ? "bg-slate-800/50" : "bg-secondary/40")}
+                transition-colors duration-200`}
                 onClick={() => markAsRead(notification.id)}
               >
                 <div className="w-full">
-                  <div className="font-medium">{notification.title}</div>
+                  <div className={`font-medium ${isDark ? "text-white" : ""}`}>{notification.title}</div>
                   <div className="text-sm text-muted-foreground">
                     {notification.content}
                   </div>
                   {!notification.read && (
-                    <Badge className="mt-2" variant="secondary">
+                    <Badge className={`mt-2 ${
+                      isDark 
+                        ? "bg-primary-dark/20 text-primary-light border border-primary-dark/30" 
+                        : "bg-secondary text-secondary-foreground"
+                    }`} variant="secondary">
                       New
                     </Badge>
                   )}
